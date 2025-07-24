@@ -2,95 +2,136 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* Potomac Scientific Database Design System
+All colors are HSL and inspired by the elegant swan logo with celestial elements
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Celestial Dark Theme - Primary */
+    --background: 220 25% 8%;
+    --foreground: 45 15% 85%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Cards with subtle glow */
+    --card: 220 20% 10%;
+    --card-foreground: 45 15% 88%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Elevated surfaces */
+    --popover: 220 20% 12%;
+    --popover-foreground: 45 15% 90%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Potomac Gold - Primary brand color */
+    --primary: 45 35% 75%;
+    --primary-foreground: 220 25% 8%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Scientific Blue - Secondary */
+    --secondary: 210 50% 25%;
+    --secondary-foreground: 45 15% 88%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted elements */
+    --muted: 220 15% 15%;
+    --muted-foreground: 45 8% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent - Celestial highlight */
+    --accent: 200 60% 40%;
+    --accent-foreground: 45 15% 95%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Status colors */
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 45 15% 95%;
+    --success: 120 60% 45%;
+    --success-foreground: 45 15% 95%;
+    --warning: 40 90% 60%;
+    --warning-foreground: 220 25% 8%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Form elements */
+    --border: 220 15% 20%;
+    --input: 220 15% 15%;
+    --ring: 45 35% 75%;
 
-    --radius: 0.5rem;
+    /* Enhanced radius for scientific elegance */
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Sidebar - Deep space theme */
+    --sidebar-background: 220 30% 6%;
+    --sidebar-foreground: 45 15% 85%;
+    --sidebar-primary: 45 35% 75%;
+    --sidebar-primary-foreground: 220 25% 8%;
+    --sidebar-accent: 220 20% 12%;
+    --sidebar-accent-foreground: 45 15% 88%;
+    --sidebar-border: 220 15% 18%;
+    --sidebar-ring: 45 35% 75%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    /* Scientific gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(45 35% 75%), hsl(45 45% 80%));
+    --gradient-celestial: linear-gradient(135deg, hsl(220 25% 8%), hsl(220 30% 12%));
+    --gradient-data: linear-gradient(135deg, hsl(210 50% 25%), hsl(200 60% 40%));
+    --gradient-glow: radial-gradient(circle at center, hsl(45 35% 75% / 0.1), transparent 70%);
 
-    --sidebar-primary: 240 5.9% 10%;
+    /* Shadows with celestial glow */
+    --shadow-glow: 0 0 30px hsl(45 35% 75% / 0.15);
+    --shadow-elegant: 0 10px 40px -10px hsl(220 25% 5% / 0.5);
+    --shadow-card: 0 4px 20px hsl(220 25% 5% / 0.3);
 
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+  /* Light mode adjustments for scientific contexts */
+  .light {
+    --background: 45 15% 95%;
+    --foreground: 220 25% 15%;
+    --card: 45 15% 98%;
+    --card-foreground: 220 25% 15%;
+    --popover: 45 15% 100%;
+    --popover-foreground: 220 25% 15%;
+    --muted: 45 10% 90%;
+    --muted-foreground: 220 15% 45%;
+    --border: 45 10% 85%;
+    --input: 45 10% 90%;
+    --sidebar-background: 45 15% 92%;
+    --sidebar-foreground: 220 25% 15%;
+    --sidebar-border: 45 10% 82%;
+  }
+}
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+@layer components {
+  /* Scientific data table styles */
+  .data-table {
+    @apply bg-card/50 backdrop-blur-sm border border-border/50 rounded-xl;
+  }
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+  /* Glow effects for interactive elements */
+  .glow-on-hover {
+    @apply transition-all duration-300 hover:shadow-[0_0_20px_hsl(var(--primary)/0.3)];
+  }
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+  /* Status indicators */
+  .status-secure {
+    @apply bg-success/20 text-success-foreground border border-success/30;
+  }
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+  .status-cmmc {
+    @apply bg-primary/20 text-primary-foreground border border-primary/30;
+  }
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+  .status-warning {
+    @apply bg-warning/20 text-warning-foreground border border-warning/30;
+  }
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+  /* Module cards */
+  .module-card {
+    @apply bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-sm border border-border/50 rounded-xl p-6 transition-all duration-300 hover:border-primary/30 hover:shadow-[0_0_30px_hsl(var(--primary)/0.1)];
+  }
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+  /* Swan-like flowing animations */
+  .flow-in {
+    @apply animate-[flow-in_0.6s_cubic-bezier(0.4,0,0.2,1)_forwards];
+  }
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+  .sparkle {
+    @apply animate-[sparkle_2s_ease-in-out_infinite];
   }
 }
 
