@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { Header } from "@/components/layout/Header";
+import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
@@ -24,7 +25,8 @@ const App = () => (
               <Header />
               <main className="flex-1">
                 <Routes>
-                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/" element={<Landing />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
                   {/* Data Module Routes - To be implemented */}
                   <Route path="/lunar" element={<div className="p-6 text-center">Lunar Surface Data Module - Coming Soon</div>} />
                   <Route path="/seabed" element={<div className="p-6 text-center">Seabed Ecology Module - Coming Soon</div>} />
