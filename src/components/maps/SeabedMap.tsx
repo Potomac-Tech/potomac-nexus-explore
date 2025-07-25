@@ -65,10 +65,48 @@ const SeabedMap: React.FC = () => {
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
 
-    // Initialize map with ocean-focused style
+    // Initialize map with GEBCO bathymetric style focusing on ocean floor
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/satellite-v9',
+      style: {
+        version: 8,
+        sources: {
+          'gebco-bathymetry': {
+            type: 'raster',
+            tiles: [
+              'https://www.gebco.net/data_and_products/gebco_web_services/web_map_service/mapserv?request=GetMap&service=WMS&version=1.3.0&layers=GEBCO_LATEST&styles=&format=image/png&crs=EPSG:4326&bbox={bbox-epsg-4326}&width=256&height=256'
+            ],
+            tileSize: 256,
+            minzoom: 0,
+            maxzoom: 8
+          },
+          'ocean-background': {
+            type: 'raster',
+            tiles: [
+              'https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}'
+            ],
+            tileSize: 256
+          }
+        },
+        layers: [
+          {
+            id: 'ocean-background-layer',
+            type: 'raster',
+            source: 'ocean-background',
+            paint: {
+              'raster-opacity': 0.8
+            }
+          },
+          {
+            id: 'bathymetry-layer',
+            type: 'raster',
+            source: 'gebco-bathymetry',
+            paint: {
+              'raster-opacity': 0.7
+            }
+          }
+        ]
+      },
       zoom: 2,
       center: [0, 0],
       pitch: 45,
