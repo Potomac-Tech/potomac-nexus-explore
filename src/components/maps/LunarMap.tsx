@@ -52,10 +52,40 @@ const LunarMap: React.FC = () => {
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
 
-    // Initialize map with lunar texture
+    // Initialize map with NASA Moon tiles
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/satellite-v9',
+      style: {
+        version: 8,
+        sources: {
+          'moon-tiles': {
+            type: 'raster',
+            tiles: [
+              'https://trek.nasa.gov/tiles/Moon/EQ/LRO_WAC_Mosaic_Global_303ppd/1.0.0/default/default028mm/{z}/{y}/{x}.jpg'
+            ],
+            tileSize: 256,
+            minzoom: 0,
+            maxzoom: 8
+          }
+        },
+        layers: [
+          {
+            id: 'moon-background',
+            type: 'background',
+            paint: {
+              'background-color': '#000000'
+            }
+          },
+          {
+            id: 'moon-surface',
+            type: 'raster',
+            source: 'moon-tiles',
+            paint: {
+              'raster-opacity': 1
+            }
+          }
+        ]
+      },
       projection: 'globe',
       zoom: 2,
       center: [0, 0],
