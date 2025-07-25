@@ -17,6 +17,7 @@ export default function Dashboard() {
       dataCount: "2.4M",
       lastUpdated: "2 hours ago",
       status: "active" as const,
+      tier: "public" as const,
       route: "/lunar"
     },
     {
@@ -26,6 +27,7 @@ export default function Dashboard() {
       dataCount: "1.8M",
       lastUpdated: "45 minutes ago",
       status: "processing" as const,
+      tier: "premium" as const,
       route: "/seabed"
     },
     {
@@ -35,6 +37,7 @@ export default function Dashboard() {
       dataCount: "950K",
       lastUpdated: "1 hour ago",
       status: "active" as const,
+      tier: "developer" as const,
       route: "/materials"
     }
   ];

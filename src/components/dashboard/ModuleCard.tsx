@@ -10,6 +10,7 @@ interface ModuleCardProps {
   dataCount: string;
   lastUpdated: string;
   status: "active" | "processing" | "maintenance";
+  tier: "public" | "premium" | "developer";
   onAccess: () => void;
 }
 
@@ -20,12 +21,19 @@ export function ModuleCard({
   dataCount,
   lastUpdated,
   status,
+  tier,
   onAccess,
 }: ModuleCardProps) {
   const statusConfig = {
     active: { label: "Active", className: "status-secure" },
     processing: { label: "Processing", className: "status-warning" },
     maintenance: { label: "Maintenance", className: "bg-muted text-muted-foreground" },
+  };
+
+  const tierConfig = {
+    public: { label: "Public", className: "bg-blue-500 text-white" },
+    premium: { label: "Premium", className: "bg-purple-500 text-white" },
+    developer: { label: "Developer", className: "bg-orange-500 text-white" },
   };
 
   return (
@@ -40,9 +48,14 @@ export function ModuleCard({
             <CardDescription className="text-sm">{description}</CardDescription>
           </div>
         </div>
-        <Badge className={statusConfig[status].className}>
-          {statusConfig[status].label}
-        </Badge>
+        <div className="flex gap-2">
+          <Badge className={tierConfig[tier].className}>
+            {tierConfig[tier].label}
+          </Badge>
+          <Badge className={statusConfig[status].className}>
+            {statusConfig[status].label}
+          </Badge>
+        </div>
       </CardHeader>
       
       <CardContent>

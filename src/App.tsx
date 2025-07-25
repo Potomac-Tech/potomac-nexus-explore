@@ -8,6 +8,8 @@ import { AppSidebar } from "@/components/layout/AppSidebar";
 import { Header } from "@/components/layout/Header";
 import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
+import LunarModule from "./pages/LunarModule";
+import SeabedModule from "./pages/SeabedModule";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -27,9 +29,9 @@ const App = () => (
                 <Routes>
                   <Route path="/" element={<Landing />} />
                   <Route path="/dashboard" element={<Dashboard />} />
-                  {/* Data Module Routes - To be implemented */}
-                  <Route path="/lunar" element={<div className="p-6 text-center">Lunar Surface Data Module - Coming Soon</div>} />
-                  <Route path="/seabed" element={<div className="p-6 text-center">Seabed Ecology Module - Coming Soon</div>} />
+                  {/* Data Module Routes */}
+                  <Route path="/lunar" element={<LunarModule />} />
+                  <Route path="/seabed" element={<SeabedModule />} />
                   <Route path="/materials" element={<div className="p-6 text-center">Material Science Module - Coming Soon</div>} />
                   <Route path="/analytics" element={<div className="p-6 text-center">Data Analytics Dashboard - Coming Soon</div>} />
                   
