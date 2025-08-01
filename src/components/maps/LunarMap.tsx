@@ -225,7 +225,9 @@ const LunarMap: React.FC = () => {
             <Button 
               className="w-full"
               onClick={() => {
-                if (selectedPoint.id === '4') {
+                if (selectedPoint.id === '1') {
+                  window.open('https://spdf.gsfc.nasa.gov/pub/data/apollo/apollo11_cdaweb/hk_dtrem/1969/', '_blank');
+                } else if (selectedPoint.id === '4') {
                   window.open('https://spdf.gsfc.nasa.gov/pub/data/apollo/apollo15_alsep/heat_flow_experiment_hfe/data/PSPG-00752_1284752997_APOLLO15_HDF_1/', '_blank');
                 }
               }}
