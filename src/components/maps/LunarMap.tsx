@@ -41,6 +41,14 @@ const sampleLunarData: DataPoint[] = [
     type: 'sample_analysis',
     tier: 'developer',
     description: 'Advanced compositional analysis for research partners'
+  },
+  {
+    id: '4',
+    name: 'Apollo 15 Heat Flow Experiment',
+    coordinates: [3.66, 26.08],
+    type: 'sample_analysis',
+    tier: 'public',
+    description: 'Thermal conductivity and temperature data from Apollo 15 ALSEP Heat Flow Experiment'
   }
 ];
 
