@@ -222,7 +222,14 @@ const LunarMap: React.FC = () => {
             <p className="text-sm text-muted-foreground mb-4">
               {selectedPoint.description}
             </p>
-            <Button className="w-full">
+            <Button 
+              className="w-full"
+              onClick={() => {
+                if (selectedPoint.id === '4') {
+                  window.open('https://spdf.gsfc.nasa.gov/pub/data/apollo/apollo15_alsep/heat_flow_experiment_hfe/data/PSPG-00752_1284752997_APOLLO15_HDF_1/', '_blank');
+                }
+              }}
+            >
               {selectedPoint.tier === 'public' ? 'View Data' : 
                selectedPoint.tier === 'premium' ? 'Upgrade to Access' : 
                'Developer API Access'}
