@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Moon, Waves, Atom, BarChart3, Database, TrendingUp } from "lucide-react";
+import { Moon, Waves, Atom, BarChart3, Database, TrendingUp, ShoppingCart } from "lucide-react";
 import { ModuleCard } from "@/components/dashboard/ModuleCard";
 import { SecurityOverview } from "@/components/dashboard/SecurityOverview";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -141,6 +141,14 @@ export default function Dashboard() {
                 >
                   <div className="font-medium">Data Analytics</div>
                   <div className="text-sm text-muted-foreground">View cross-module insights</div>
+                </button>
+                
+                <button 
+                  className="w-full p-3 text-left rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors border border-border/30"
+                  onClick={() => navigate("/marketplace")}
+                >
+                  <div className="font-medium">Data Marketplace</div>
+                  <div className="text-sm text-muted-foreground">Buy & sell research data</div>
                 </button>
                 
                 <button 

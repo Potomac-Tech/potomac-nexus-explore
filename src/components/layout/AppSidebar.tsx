@@ -8,7 +8,8 @@ import {
   Moon,
   Waves,
   Atom,
-  ChevronRight
+  ChevronRight,
+  ShoppingCart
 } from "lucide-react";
 
 import {
@@ -25,8 +26,9 @@ import {
 } from "@/components/ui/sidebar";
 
 const mainItems = [
-  { title: "Dashboard", url: "/", icon: BarChart3 },
+  { title: "Dashboard", url: "/dashboard", icon: BarChart3 },
   { title: "Data Analytics", url: "/analytics", icon: Database },
+  { title: "Data Marketplace", url: "/marketplace", icon: ShoppingCart },
 ];
 
 const dataModules = [
