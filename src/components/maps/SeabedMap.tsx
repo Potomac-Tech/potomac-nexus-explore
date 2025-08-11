@@ -86,6 +86,10 @@ const SeabedMap: React.FC = () => {
               'https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}'
             ],
             tileSize: 256
+          },
+          'natural-earth': {
+            type: 'vector',
+            url: 'mapbox://mapbox.natural-earth-shaded-relief'
           }
         },
         layers: [
@@ -103,6 +107,16 @@ const SeabedMap: React.FC = () => {
             source: 'gebco-bathymetry',
             paint: {
               'raster-opacity': 0.7
+            }
+          },
+          {
+            id: 'land-fill',
+            type: 'fill',
+            source: 'natural-earth',
+            'source-layer': 'landcover',
+            paint: {
+              'fill-color': '#d4af89',
+              'fill-opacity': 1
             }
           }
         ]
