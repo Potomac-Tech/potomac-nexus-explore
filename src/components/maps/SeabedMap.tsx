@@ -83,7 +83,7 @@ const SeabedMap: React.FC = () => {
           'ocean-background': {
             type: 'raster',
             tiles: [
-              'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
+              'https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}'
             ],
             tileSize: 256
           }
@@ -94,8 +94,7 @@ const SeabedMap: React.FC = () => {
             type: 'raster',
             source: 'ocean-background',
             paint: {
-              'raster-opacity': 0.3,
-              'raster-saturation': -1
+              'raster-opacity': 0.8
             }
           },
           {
@@ -308,15 +307,7 @@ const SeabedMap: React.FC = () => {
             <p className="text-sm text-muted-foreground mb-4">
               {selectedPoint.description}
             </p>
-            <Button 
-              className="w-full"
-              onClick={() => {
-                if (selectedPoint.name === 'Monterey Canyon') {
-                  // TODO: Backend - Track data access analytics
-                  window.open('https://cmgds.marine.usgs.gov/data/csmp/MontereyCanyon/data_catalog_MontereyCanyon.html', '_blank');
-                }
-              }}
-            >
+            <Button className="w-full">
               {selectedPoint.tier === 'public' ? 'View Data' : 
                selectedPoint.tier === 'premium' ? 'Upgrade to Access' : 
                'Developer API Access'}
