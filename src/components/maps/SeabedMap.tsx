@@ -83,7 +83,7 @@ const SeabedMap: React.FC = () => {
           'ocean-background': {
             type: 'raster',
             tiles: [
-              'https://server.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}'
+              'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=='
             ],
             tileSize: 256
           }
@@ -94,7 +94,8 @@ const SeabedMap: React.FC = () => {
             type: 'raster',
             source: 'ocean-background',
             paint: {
-              'raster-opacity': 0.8
+              'raster-opacity': 0.3,
+              'raster-saturation': -1
             }
           },
           {
@@ -123,58 +124,13 @@ const SeabedMap: React.FC = () => {
       });
     });
 
-    // Globe rotation settings
-    const secondsPerRevolution = 240;
-    const maxSpinZoom = 5;
-    const slowSpinZoom = 3;
+    // Disable auto-spinning for seabed ecology focus
     let userInteracting = false;
-    let spinEnabled = true;
-
-    // Spin globe function
-    function spinGlobe() {
-      if (!map.current) return;
-      
-      const zoom = map.current.getZoom();
-      if (spinEnabled && !userInteracting && zoom < maxSpinZoom) {
-        let distancePerSecond = 360 / secondsPerRevolution;
-        if (zoom > slowSpinZoom) {
-          const zoomDif = (maxSpinZoom - zoom) / (maxSpinZoom - slowSpinZoom);
-          distancePerSecond *= zoomDif;
-        }
-        const center = map.current.getCenter();
-        center.lng -= distancePerSecond;
-        map.current.easeTo({ center, duration: 1000, easing: (n) => n });
-      }
-    }
-
-    // Event listeners for interaction
-    map.current.on('mousedown', () => {
-      userInteracting = true;
-    });
-    
-    map.current.on('dragstart', () => {
-      userInteracting = true;
-    });
-    
-    map.current.on('mouseup', () => {
-      userInteracting = false;
-      spinGlobe();
-    });
-    
-    map.current.on('touchend', () => {
-      userInteracting = false;
-      spinGlobe();
-    });
-
-    map.current.on('moveend', () => {
-      spinGlobe();
-    });
 
     // Add navigation controls
     map.current.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'top-right');
 
-    // Start the globe spinning
-    spinGlobe();
+    // Globe spinning disabled for seabed ecology focus
 
     // Add data points
     map.current.on('load', () => {
@@ -307,7 +263,15 @@ const SeabedMap: React.FC = () => {
             <p className="text-sm text-muted-foreground mb-4">
               {selectedPoint.description}
             </p>
-            <Button className="w-full">
+            <Button 
+              className="w-full"
+              onClick={() => {
+                if (selectedPoint.name === 'Monterey Canyon') {
+                  // TODO: Backend - Track data access analytics
+                  window.open('https://cmgds.marine.usgs.gov/data/csmp/MontereyCanyon/data_catalog_MontereyCanyon.html', '_blank');
+                }
+              }}
+            >
               {selectedPoint.tier === 'public' ? 'View Data' : 
                selectedPoint.tier === 'premium' ? 'Upgrade to Access' : 
                'Developer API Access'}
