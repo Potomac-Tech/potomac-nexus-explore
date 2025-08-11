@@ -117,7 +117,16 @@ const SeabedMap: React.FC = () => {
             paint: {
               'fill-color': '#d4af89',
               'fill-opacity': 1
-            }
+            },
+            filter: [
+              'all',
+              ['!=', ['get', 'featurecla'], 'River'],
+              ['!=', ['get', 'featurecla'], 'Lake'],
+              ['!=', ['get', 'featurecla'], 'Ocean'],
+              ['!=', ['get', 'type'], 'River'],
+              ['!=', ['get', 'type'], 'Lake'],
+              ['!=', ['get', 'type'], 'Ocean']
+            ]
           }
         ]
       },
