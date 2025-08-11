@@ -124,13 +124,58 @@ const SeabedMap: React.FC = () => {
       });
     });
 
-    // Disable auto-spinning for seabed ecology focus
+    // Globe rotation settings
+    const secondsPerRevolution = 240;
+    const maxSpinZoom = 5;
+    const slowSpinZoom = 3;
     let userInteracting = false;
+    let spinEnabled = true;
+
+    // Spin globe function
+    function spinGlobe() {
+      if (!map.current) return;
+      
+      const zoom = map.current.getZoom();
+      if (spinEnabled && !userInteracting && zoom < maxSpinZoom) {
+        let distancePerSecond = 360 / secondsPerRevolution;
+        if (zoom > slowSpinZoom) {
+          const zoomDif = (maxSpinZoom - zoom) / (maxSpinZoom - slowSpinZoom);
+          distancePerSecond *= zoomDif;
+        }
+        const center = map.current.getCenter();
+        center.lng -= distancePerSecond;
+        map.current.easeTo({ center, duration: 1000, easing: (n) => n });
+      }
+    }
+
+    // Event listeners for interaction
+    map.current.on('mousedown', () => {
+      userInteracting = true;
+    });
+    
+    map.current.on('dragstart', () => {
+      userInteracting = true;
+    });
+    
+    map.current.on('mouseup', () => {
+      userInteracting = false;
+      spinGlobe();
+    });
+    
+    map.current.on('touchend', () => {
+      userInteracting = false;
+      spinGlobe();
+    });
+
+    map.current.on('moveend', () => {
+      spinGlobe();
+    });
 
     // Add navigation controls
     map.current.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'top-right');
 
-    // Globe spinning disabled for seabed ecology focus
+    // Start the globe spinning
+    spinGlobe();
 
     // Add data points
     map.current.on('load', () => {
