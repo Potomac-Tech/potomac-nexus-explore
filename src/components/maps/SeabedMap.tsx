@@ -87,9 +87,9 @@ const SeabedMap: React.FC = () => {
             ],
             tileSize: 256
           },
-          'mapbox-satellite': {
-            type: 'raster',
-            url: 'mapbox://mapbox.satellite'
+          'natural-earth': {
+            type: 'vector',
+            url: 'mapbox://mapbox.natural-earth-shaded-relief'
           }
         },
         layers: [
@@ -110,17 +110,14 @@ const SeabedMap: React.FC = () => {
             }
           },
           {
-            id: 'land-filter',
-            type: 'raster',
-            source: 'mapbox-satellite',
+            id: 'land-fill',
+            type: 'fill',
+            source: 'natural-earth',
+            'source-layer': 'landcover',
             paint: {
-              'raster-opacity': 1,
-              'raster-saturation': -1,
-              'raster-brightness-min': 0.6,
-              'raster-brightness-max': 0.8,
-              'raster-contrast': -0.3
-            },
-            filter: ['!=', ['get', 'class'], 'water']
+              'fill-color': '#d4af89',
+              'fill-opacity': 1
+            }
           }
         ]
       },
