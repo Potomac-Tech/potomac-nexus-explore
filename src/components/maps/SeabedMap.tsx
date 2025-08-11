@@ -123,12 +123,12 @@ const SeabedMap: React.FC = () => {
       });
     });
 
-    // Globe rotation settings
+    // Globe rotation settings (disabled)
     const secondsPerRevolution = 240;
     const maxSpinZoom = 5;
     const slowSpinZoom = 3;
     let userInteracting = false;
-    let spinEnabled = true;
+    let spinEnabled = false; // Disabled auto-spinning
 
     // Spin globe function
     function spinGlobe() {
@@ -173,8 +173,7 @@ const SeabedMap: React.FC = () => {
     // Add navigation controls
     map.current.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'top-right');
 
-    // Start the globe spinning
-    spinGlobe();
+    // Globe spinning disabled - no auto-start
 
     // Add data points
     map.current.on('load', () => {
@@ -307,7 +306,14 @@ const SeabedMap: React.FC = () => {
             <p className="text-sm text-muted-foreground mb-4">
               {selectedPoint.description}
             </p>
-            <Button className="w-full">
+            <Button 
+              className="w-full"
+              onClick={() => {
+                if (selectedPoint.id === '4' && selectedPoint.tier === 'public') {
+                  window.open('https://cmgds.marine.usgs.gov/data/csmp/MontereyCanyon/data_catalog_MontereyCanyon.html', '_blank');
+                }
+              }}
+            >
               {selectedPoint.tier === 'public' ? 'View Data' : 
                selectedPoint.tier === 'premium' ? 'Upgrade to Access' : 
                'Developer API Access'}
