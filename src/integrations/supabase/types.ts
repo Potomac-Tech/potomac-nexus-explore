@@ -14,13 +14,200 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      compliance_settings: {
+        Row: {
+          compliance_framework: string | null
+          description: string | null
+          id: string
+          setting_name: string
+          setting_value: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          compliance_framework?: string | null
+          description?: string | null
+          id?: string
+          setting_name: string
+          setting_value: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          compliance_framework?: string | null
+          description?: string | null
+          id?: string
+          setting_name?: string
+          setting_value?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      mfa_configurations: {
+        Row: {
+          backup_codes: string[] | null
+          created_at: string
+          id: string
+          is_verified: boolean
+          phone_number: string | null
+          totp_secret: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          backup_codes?: string[] | null
+          created_at?: string
+          id?: string
+          is_verified?: boolean
+          phone_number?: string | null
+          totp_secret?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          backup_codes?: string[] | null
+          created_at?: string
+          id?: string
+          is_verified?: boolean
+          phone_number?: string | null
+          totp_secret?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          department: string | null
+          display_name: string | null
+          id: string
+          last_login: string | null
+          mfa_enabled: boolean
+          role: string | null
+          security_clearance: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          department?: string | null
+          display_name?: string | null
+          id?: string
+          last_login?: string | null
+          mfa_enabled?: boolean
+          role?: string | null
+          security_clearance?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          department?: string | null
+          display_name?: string | null
+          id?: string
+          last_login?: string | null
+          mfa_enabled?: boolean
+          role?: string | null
+          security_clearance?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      saml_providers: {
+        Row: {
+          certificate: string | null
+          created_at: string
+          domain: string
+          enabled: boolean
+          entity_id: string
+          id: string
+          metadata_url: string | null
+          name: string
+          sso_url: string
+          updated_at: string
+        }
+        Insert: {
+          certificate?: string | null
+          created_at?: string
+          domain: string
+          enabled?: boolean
+          entity_id: string
+          id?: string
+          metadata_url?: string | null
+          name: string
+          sso_url: string
+          updated_at?: string
+        }
+        Update: {
+          certificate?: string | null
+          created_at?: string
+          domain?: string
+          enabled?: boolean
+          entity_id?: string
+          id?: string
+          metadata_url?: string | null
+          name?: string
+          sso_url?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      security_audit_logs: {
+        Row: {
+          event_description: string
+          event_type: string
+          id: string
+          ip_address: unknown | null
+          metadata: Json | null
+          risk_level: string | null
+          timestamp: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          event_description: string
+          event_type: string
+          id?: string
+          ip_address?: unknown | null
+          metadata?: Json | null
+          risk_level?: string | null
+          timestamp?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          event_description?: string
+          event_type?: string
+          id?: string
+          ip_address?: unknown | null
+          metadata?: Json | null
+          risk_level?: string | null
+          timestamp?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      log_security_event: {
+        Args: {
+          p_event_description?: string
+          p_event_type?: string
+          p_ip_address?: unknown
+          p_metadata?: Json
+          p_risk_level?: string
+          p_user_agent?: string
+          p_user_id?: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
