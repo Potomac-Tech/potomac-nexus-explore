@@ -1,138 +1,227 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { ArrowRight, Database, Microscope, Rocket, Waves } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { ArrowRight, Database, Microscope, Rocket, Waves, Shield, Users, Globe, Satellite, ShoppingCart, BarChart3 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { MFASetup } from "@/components/auth/MFASetup";
 
 const Landing = () => {
+  const { user } = useAuth();
+
+  const features = [
+    {
+      title: 'Lunar Data Module',
+      description: 'Advanced lunar surface analysis and mineral composition data',
+      icon: Satellite,
+      href: '/lunar',
+      status: 'Active'
+    },
+    {
+      title: 'Seabed Mapping',
+      description: 'Deep-sea geological surveys and underwater terrain mapping',
+      icon: Waves, 
+      href: '/seabed',
+      status: 'Active'
+    },
+    {
+      title: 'Data Marketplace',
+      description: 'Buy and sell scientific datasets with secure transactions',
+      icon: ShoppingCart,
+      href: '/marketplace',
+      status: 'Active'
+    },
+    {
+      title: 'Analytics Dashboard',
+      description: 'Comprehensive data visualization and research analytics',
+      icon: BarChart3,
+      href: '/analytics',
+      status: 'Coming Soon'
+    }
+  ];
+
+  const securityFeatures = [
+    'SAML SSO Integration',
+    'Multi-Factor Authentication (MFA)',
+    'SOC 2 Type 2 Compliance',
+    'AES-256 Encryption at Rest',
+    'TLS 1.3 Encryption in Transit',
+    'Real-time Security Monitoring'
+  ];
+
   return (
-    <div className="min-h-screen bg-gradient-celestial">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden py-20 px-6">
-        <div className="absolute inset-0 bg-gradient-glow opacity-30" />
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="text-center space-y-8">
-            {/* Logo */}
-            <div className="flex justify-center mb-8">
-              <img 
-                src="/lovable-uploads/21fa0edb-b252-42c1-bd21-38a5e74baa22.png" 
-                alt="Potomac Scientific Database" 
-                className="h-24 w-auto animate-swan-float"
-              />
-            </div>
-            
-            {/* Hero Text */}
-            <div className="space-y-6 flow-in">
-              <h1 className="text-5xl md:text-7xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                Unleashing a New Wave 
-                <br />
-                of Science
-              </h1>
-              <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-                Potomac empowers researchers with secure, compliant, and intelligent 
-                data management across lunar surfaces, seabed ecosystems, and material sciences.
-              </p>
-            </div>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-              <Button asChild size="lg" className="text-lg px-8 py-6 glow-on-hover">
-                <Link to="/dashboard">
-                  Explore Data Modules
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-              <Button variant="outline" size="lg" className="text-lg px-8 py-6">
-                Learn More
-              </Button>
-            </div>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted">
+      <div className="container mx-auto px-6 py-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="inline-flex items-center gap-2 mb-4">
+            <Database className="w-8 h-8 text-primary" />
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              Potomac Scientific Database
+            </h1>
+          </div>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Enterprise-grade scientific data platform with advanced security and compliance
+          </p>
+          <div className="flex items-center justify-center gap-2 mt-4">
+            <Badge variant="outline" className="status-secure">
+              <Shield className="w-3 h-3 mr-1" />
+              SOC 2 Certified
+            </Badge>
+            <Badge variant="outline">Enterprise Security</Badge>
+            <Badge variant="outline">Real-time Monitoring</Badge>
           </div>
         </div>
-      </section>
 
-      {/* Features Section */}
-      <section className="py-20 px-6">
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 text-foreground">
-              Scientific Data Excellence
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Advanced data management solutions built for the most demanding scientific research environments.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Lunar Data Module */}
-            <Card className="module-card group cursor-pointer">
-              <div className="space-y-4">
-                <div className="h-12 w-12 rounded-lg bg-gradient-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Rocket className="h-6 w-6 text-primary" />
+        {/* User Welcome */}
+        {user && (
+          <Card className="mb-8 bg-card/50 backdrop-blur-sm border-primary/20">
+            <CardHeader>
+              <CardTitle>Welcome back, {user.email}</CardTitle>
+              <CardDescription>
+                Your secure session is active. All activities are monitored for compliance.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <Badge variant="outline" className="status-secure">
+                    <Users className="w-3 h-3 mr-1" />
+                    Authenticated
+                  </Badge>
+                  <Link to="/dashboard">
+                    <Button>Go to Dashboard</Button>
+                  </Link>
                 </div>
-                <h3 className="text-xl font-semibold text-card-foreground">
-                  Lunar Surface Analysis
-                </h3>
-                <p className="text-muted-foreground">
-                  Comprehensive lunar geological data, surface composition analysis, and mission-critical research datasets.
-                </p>
-              </div>
-            </Card>
-
-            {/* Seabed Ecology Module */}
-            <Card className="module-card group cursor-pointer">
-              <div className="space-y-4">
-                <div className="h-12 w-12 rounded-lg bg-gradient-data/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Waves className="h-6 w-6 text-accent" />
-                </div>
-                <h3 className="text-xl font-semibold text-card-foreground">
-                  Seabed Ecology Research
-                </h3>
-                <p className="text-muted-foreground">
-                  Deep ocean ecosystem data, marine biodiversity analysis, and environmental monitoring systems.
-                </p>
-              </div>
-            </Card>
-
-            {/* Material Science Module */}
-            <Card className="module-card group cursor-pointer">
-              <div className="space-y-4">
-                <div className="h-12 w-12 rounded-lg bg-gradient-primary/20 flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Microscope className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="text-xl font-semibold text-card-foreground">
-                  Material Sciences
-                </h3>
-                <p className="text-muted-foreground">
-                  Advanced material properties, structural analysis, and cutting-edge research data management.
-                </p>
-              </div>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Security & Compliance */}
-      <section className="py-20 px-6 bg-card/30">
-        <div className="container mx-auto max-w-4xl text-center">
-          <div className="space-y-6">
-            <Database className="h-16 w-16 text-primary mx-auto sparkle" />
-            <h2 className="text-4xl font-bold text-foreground">
-              CMMC Level 3 Compliant
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Enterprise-grade security with role-based access control, ensuring your sensitive 
-              scientific data meets the highest government and institutional standards.
-            </p>
-            <div className="flex justify-center pt-6">
-              <Button asChild variant="outline" size="lg">
                 <Link to="/security">
-                  View Security Details
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                  <Button variant="outline">
+                    <Shield className="w-4 h-4 mr-2" />
+                    Security Center
+                  </Button>
                 </Link>
-              </Button>
-            </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* MFA Setup */}
+        {user && (
+          <div className="mb-8">
+            <MFASetup />
+          </div>
+        )}
+
+        {/* Data Modules */}
+        <div className="mb-12">
+          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+            <Globe className="w-6 h-6 text-primary" />
+            Scientific Data Modules
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {features.map((feature, index) => {
+              const Icon = feature.icon;
+              return (
+                <Card key={index} className="module-card group cursor-pointer">
+                  <CardHeader className="pb-4">
+                    <div className="flex items-center justify-between">
+                      <Icon className="w-8 h-8 text-primary" />
+                      <Badge 
+                        variant={feature.status === 'Active' ? 'default' : 'secondary'}
+                        className={feature.status === 'Active' ? 'status-secure' : ''}
+                      >
+                        {feature.status}
+                      </Badge>
+                    </div>
+                    <CardTitle className="text-lg">{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="mb-4">{feature.description}</CardDescription>
+                    {feature.status === 'Active' && (
+                      <Link to={feature.href}>
+                        <Button variant="outline" size="sm" className="w-full group-hover:bg-primary group-hover:text-primary-foreground">
+                          Access Module
+                        </Button>
+                      </Link>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
-      </section>
+
+        {/* Security & Compliance */}
+        <Card className="bg-gradient-to-r from-card/80 to-card/60 backdrop-blur-sm border-border/50">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Shield className="w-6 h-6 text-primary" />
+              Enterprise Security & Compliance
+            </CardTitle>
+            <CardDescription>
+              Built with enterprise-grade security controls and SOC 2 Type 2 compliance
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div>
+                <h4 className="font-semibold mb-3 text-primary">Security Features</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  {securityFeatures.map((feature, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <Shield className="w-3 h-3 text-success" />
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              
+              <div>
+                <h4 className="font-semibold mb-3 text-primary">Compliance Standards</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li className="flex items-center gap-2">
+                    <Shield className="w-3 h-3 text-success" />
+                    SOC 2 Type 2 Certified
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Shield className="w-3 h-3 text-success" />
+                    CMMC Level 2 Ready
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Shield className="w-3 h-3 text-success" />
+                    GDPR Compliant
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Shield className="w-3 h-3 text-success" />
+                    HIPAA Ready
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h4 className="font-semibold mb-3 text-primary">Data Protection</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  <li className="flex items-center gap-2">
+                    <Shield className="w-3 h-3 text-success" />
+                    End-to-End Encryption
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Shield className="w-3 h-3 text-success" />
+                    Zero-Knowledge Architecture
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Shield className="w-3 h-3 text-success" />
+                    Automated Backups
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Shield className="w-3 h-3 text-success" />
+                    Audit Trail Logging
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
