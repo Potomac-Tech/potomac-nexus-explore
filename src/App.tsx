@@ -14,6 +14,7 @@ import LunarModule from "./pages/LunarModule";
 import SeabedModule from "./pages/SeabedModule";
 import DataMarketplace from "./pages/DataMarketplace";
 import Auth from "./pages/Auth";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import { SecurityDashboard } from "@/components/security/SecurityDashboard";
 
@@ -46,6 +47,7 @@ const App = () => (
                         <Routes>
                           <Route path="/" element={<Landing />} />
                           <Route path="/dashboard" element={<Dashboard />} />
+                          <Route path="/profile" element={<Profile />} />
                           {/* Data Module Routes */}
                           <Route path="/lunar" element={<LunarModule />} />
                           <Route path="/seabed" element={<SeabedModule />} />

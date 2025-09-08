@@ -1,13 +1,20 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Moon, Waves, Atom, BarChart3, Database, TrendingUp, ShoppingCart } from "lucide-react";
 import { ModuleCard } from "@/components/dashboard/ModuleCard";
 import { SecurityOverview } from "@/components/dashboard/SecurityOverview";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useProfile } from "@/hooks/useProfile";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const [userName] = useState("Dr. Sarah Chen");
+  const { user } = useAuth();
+  const { profile } = useProfile();
+
+  const displayName = profile?.display_name || 
+    (profile?.first_name && profile?.last_name 
+      ? `${profile.first_name} ${profile.last_name}` 
+      : user?.email?.split('@')[0] || 'User');
 
   const dataModules = [
     {
@@ -72,7 +79,7 @@ export default function Dashboard() {
         {/* Welcome Section */}
         <div className="flow-in">
           <h1 className="text-4xl font-bold text-foreground mb-2">
-            Welcome back, {userName}
+            Welcome back, {displayName}
           </h1>
           <p className="text-lg text-muted-foreground">
             Access your scientific databases and monitor system performance

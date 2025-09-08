@@ -79,11 +79,15 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar_url: string | null
+          bio: string | null
           created_at: string
           department: string | null
           display_name: string | null
+          first_name: string | null
           id: string
           last_login: string | null
+          last_name: string | null
           mfa_enabled: boolean
           role: string | null
           security_clearance: string | null
@@ -91,11 +95,15 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           department?: string | null
           display_name?: string | null
+          first_name?: string | null
           id?: string
           last_login?: string | null
+          last_name?: string | null
           mfa_enabled?: boolean
           role?: string | null
           security_clearance?: string | null
@@ -103,11 +111,15 @@ export type Database = {
           user_id: string
         }
         Update: {
+          avatar_url?: string | null
+          bio?: string | null
           created_at?: string
           department?: string | null
           display_name?: string | null
+          first_name?: string | null
           id?: string
           last_login?: string | null
+          last_name?: string | null
           mfa_enabled?: boolean
           role?: string | null
           security_clearance?: string | null
@@ -196,6 +208,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      is_admin: {
+        Args: { user_id?: string }
+        Returns: boolean
+      }
       log_security_event: {
         Args: {
           p_event_description?: string
@@ -210,7 +226,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      user_role: "admin" | "researcher" | "analyst" | "viewer"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -337,6 +353,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      user_role: ["admin", "researcher", "analyst", "viewer"],
+    },
   },
 } as const

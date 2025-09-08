@@ -1,8 +1,11 @@
-import { Bell, Search, User, Shield, CheckCircle, AlertTriangle } from "lucide-react";
+import { Bell, Search, User, Shield, CheckCircle, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useAuth } from "@/contexts/AuthContext";
+import { useProfile } from "@/hooks/useProfile";
+import { useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,16 +16,28 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 interface HeaderProps {
-  userName?: string;
-  userRole?: string;
   cmmcLevel?: string;
 }
 
 export function Header({ 
-  userName = "Dr. Sarah Chen", 
-  userRole = "Senior Researcher",
   cmmcLevel = "Level 3" 
 }: HeaderProps) {
+  const { user, signOut } = useAuth();
+  const { profile, isAdmin } = useProfile();
+  const navigate = useNavigate();
+
+  const displayName = profile?.display_name || 
+    (profile?.first_name && profile?.last_name 
+      ? `${profile.first_name} ${profile.last_name}` 
+      : user?.email?.split('@')[0] || 'User');
+
+  const userRole = profile?.role ? 
+    profile.role.charAt(0).toUpperCase() + profile.role.slice(1) : 
+    'Researcher';
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
   return (
     <header className="h-16 border-b border-border/30 bg-background/80 backdrop-blur-sm sticky top-0 z-50">
       <div className="flex items-center justify-between h-full px-6">
@@ -71,7 +86,7 @@ export function Header({
                   <User className="h-4 w-4 text-primary-foreground" />
                 </div>
                 <div className="text-left hidden md:block">
-                  <div className="text-sm font-medium">{userName}</div>
+                  <div className="text-sm font-medium">{displayName}</div>
                   <div className="text-xs text-muted-foreground">{userRole}</div>
                 </div>
               </Button>
@@ -79,16 +94,35 @@ export function Header({
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>
                 <div>
-                  <div className="font-medium">{userName}</div>
+                  <div className="font-medium">{displayName}</div>
                   <div className="text-sm text-muted-foreground">{userRole}</div>
+                  {isAdmin && (
+                    <Badge variant="destructive" className="text-xs mt-1">
+                      Admin
+                    </Badge>
+                  )}
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Profile Settings</DropdownMenuItem>
-              <DropdownMenuItem>Access Permissions</DropdownMenuItem>
-              <DropdownMenuItem>Security Keys</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate('/profile')}>
+                <Settings className="h-4 w-4 mr-2" />
+                Profile Settings
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate('/security')}>
+                <Shield className="h-4 w-4 mr-2" />
+                Security Dashboard
+              </DropdownMenuItem>
+              {isAdmin && (
+                <DropdownMenuItem onClick={() => navigate('/admin')}>
+                  <User className="h-4 w-4 mr-2" />
+                  Admin Panel
+                </DropdownMenuItem>
+              )}
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-destructive">
+              <DropdownMenuItem 
+                className="text-destructive" 
+                onClick={handleSignOut}
+              >
                 Sign Out
               </DropdownMenuItem>
             </DropdownMenuContent>
