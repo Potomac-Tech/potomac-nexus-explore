@@ -8,17 +8,17 @@ All colors are HSL and inspired by the elegant swan logo with celestial elements
 
 @layer base {
   :root {
-    /* Celestial Dark Theme - Primary */
-    --background: 220 25% 8%;
-    --foreground: 45 15% 85%;
+    /* Celestial Dark Theme - Matching logo background */
+    --background: 215 20% 22%;
+    --foreground: 45 25% 90%;
 
     /* Cards with subtle glow */
-    --card: 220 20% 10%;
-    --card-foreground: 45 15% 88%;
+    --card: 215 20% 26%;
+    --card-foreground: 45 25% 92%;
 
     /* Elevated surfaces */
-    --popover: 220 20% 12%;
-    --popover-foreground: 45 15% 90%;
+    --popover: 215 20% 28%;
+    --popover-foreground: 45 25% 94%;
 
     /* Potomac Gold - Primary brand color */
     --primary: 45 35% 75%;
@@ -29,8 +29,8 @@ All colors are HSL and inspired by the elegant swan logo with celestial elements
     --secondary-foreground: 45 15% 88%;
 
     /* Muted elements */
-    --muted: 220 15% 15%;
-    --muted-foreground: 45 8% 65%;
+    --muted: 215 15% 18%;
+    --muted-foreground: 45 15% 70%;
 
     /* Accent - Celestial highlight */
     --accent: 200 60% 40%;
@@ -45,26 +45,26 @@ All colors are HSL and inspired by the elegant swan logo with celestial elements
     --warning-foreground: 220 25% 8%;
 
     /* Form elements */
-    --border: 220 15% 20%;
-    --input: 220 15% 15%;
+    --border: 215 15% 30%;
+    --input: 215 15% 20%;
     --ring: 45 35% 75%;
 
     /* Enhanced radius for scientific elegance */
     --radius: 0.75rem;
 
-    /* Sidebar - Deep space theme */
-    --sidebar-background: 220 30% 6%;
-    --sidebar-foreground: 45 15% 85%;
+    /* Sidebar - Matching logo theme */
+    --sidebar-background: 215 20% 20%;
+    --sidebar-foreground: 45 25% 90%;
     --sidebar-primary: 45 35% 75%;
-    --sidebar-primary-foreground: 220 25% 8%;
-    --sidebar-accent: 220 20% 12%;
-    --sidebar-accent-foreground: 45 15% 88%;
-    --sidebar-border: 220 15% 18%;
+    --sidebar-primary-foreground: 215 20% 22%;
+    --sidebar-accent: 215 20% 24%;
+    --sidebar-accent-foreground: 45 25% 92%;
+    --sidebar-border: 215 15% 32%;
     --sidebar-ring: 45 35% 75%;
 
     /* Scientific gradients */
     --gradient-primary: linear-gradient(135deg, hsl(45 35% 75%), hsl(45 45% 80%));
-    --gradient-celestial: linear-gradient(135deg, hsl(220 25% 8%), hsl(220 30% 12%));
+    --gradient-celestial: linear-gradient(135deg, hsl(215 20% 22%), hsl(215 25% 28%));
     --gradient-data: linear-gradient(135deg, hsl(210 50% 25%), hsl(200 60% 40%));
     --gradient-glow: radial-gradient(circle at center, hsl(45 35% 75% / 0.1), transparent 70%);
 
