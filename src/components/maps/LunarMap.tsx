@@ -12,7 +12,7 @@ interface DataPoint {
   id: string;
   name: string;
   coordinates: [number, number];
-  type: 'mass_spectrometry' | 'video_mapping' | 'sample_analysis';
+  type: 'mass_spectrometry' | 'video_mapping' | 'sample_analysis' | 'thermal_imaging';
   tier: 'public' | 'premium' | 'developer';
   description: string;
 }
@@ -46,9 +46,17 @@ const sampleLunarData: DataPoint[] = [
     id: '4',
     name: 'Apollo 15 Heat Flow Experiment',
     coordinates: [3.66, 26.08],
-    type: 'sample_analysis',
+    type: 'thermal_imaging',
     tier: 'public',
     description: 'Thermal conductivity and temperature data from Apollo 15 ALSEP Heat Flow Experiment'
+  },
+  {
+    id: '5',
+    name: 'Lunar Reconnaissance Orbiter Site',
+    coordinates: [-23.47, -8.60],
+    type: 'thermal_imaging',
+    tier: 'premium',
+    description: 'High-resolution thermal imaging of permanently shadowed regions'
   }
 ];
 
@@ -143,9 +151,10 @@ const LunarMap: React.FC = () => {
           ],
           'circle-color': [
             'case',
-            ['==', ['get', 'tier'], 'public'], '#22c55e',
-            ['==', ['get', 'tier'], 'premium'], '#f59e0b',
-            '#ef4444' // developer
+            ['==', ['get', 'type'], 'mass_spectrometry'], '#ef4444', // Red for spectrometry
+            ['==', ['get', 'type'], 'video_mapping'], '#3b82f6', // Blue for video/image
+            ['==', ['get', 'type'], 'thermal_imaging'], '#f59e0b', // Orange for thermal
+            '#22c55e' // Green for sample analysis
           ],
           'circle-stroke-width': 2,
           'circle-stroke-color': '#ffffff'
@@ -182,12 +191,22 @@ const LunarMap: React.FC = () => {
     };
   }, []);
 
+  const getDataTypeColor = (type: string) => {
+    switch (type) {
+      case 'mass_spectrometry': return 'bg-red-500';
+      case 'video_mapping': return 'bg-blue-500';
+      case 'thermal_imaging': return 'bg-amber-500';
+      case 'sample_analysis': return 'bg-green-500';
+      default: return 'bg-gray-500';
+    }
+  };
+
   const getTierColor = (tier: string) => {
     switch (tier) {
-      case 'public': return 'bg-green-500';
-      case 'premium': return 'bg-amber-500';
-      case 'developer': return 'bg-red-500';
-      default: return 'bg-gray-500';
+      case 'public': return 'bg-emerald-100 text-emerald-800';
+      case 'premium': return 'bg-violet-100 text-violet-800';
+      case 'developer': return 'bg-orange-100 text-orange-800';
+      default: return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -210,11 +229,11 @@ const LunarMap: React.FC = () => {
               </Button>
             </div>
             <div className="flex gap-2">
-              <Badge className={`${getTierColor(selectedPoint.tier)} text-white`}>
-                {selectedPoint.tier.toUpperCase()}
-              </Badge>
-              <Badge variant="outline">
+              <Badge className={`${getDataTypeColor(selectedPoint.type)} text-white`}>
                 {selectedPoint.type.replace('_', ' ').toUpperCase()}
+              </Badge>
+              <Badge className={getTierColor(selectedPoint.tier)}>
+                {selectedPoint.tier.toUpperCase()}
               </Badge>
             </div>
           </CardHeader>
@@ -243,20 +262,24 @@ const LunarMap: React.FC = () => {
       {/* Legend */}
       <Card className="absolute bottom-4 right-4 z-10">
         <CardHeader>
-          <CardTitle className="text-sm">Data Access Tiers</CardTitle>
+          <CardTitle className="text-sm">Data Types</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-green-500"></div>
-            <span className="text-sm">Public - Free Access</span>
+            <div className="w-4 h-4 rounded-full bg-red-500"></div>
+            <span className="text-sm">Mass Spectrometry</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-blue-500"></div>
+            <span className="text-sm">Video/Image Mapping</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 rounded-full bg-amber-500"></div>
-            <span className="text-sm">Premium - Paid Access</span>
+            <span className="text-sm">Thermal Imaging</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-red-500"></div>
-            <span className="text-sm">Developer - API Access</span>
+            <div className="w-4 h-4 rounded-full bg-green-500"></div>
+            <span className="text-sm">Sample Analysis</span>
           </div>
         </CardContent>
       </Card>
