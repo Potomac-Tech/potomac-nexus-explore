@@ -12,51 +12,129 @@ interface DataPoint {
   id: string;
   name: string;
   coordinates: [number, number];
-  type: 'mass_spectrometry' | 'video_mapping' | 'sample_analysis' | 'thermal_imaging';
+  type: 'mass_spectrometry' | 'photographic' | 'thermal_analysis' | 'seismic_data' | 'gravimeter_data' | 'dust_analysis';
   tier: 'public' | 'premium' | 'developer';
   description: string;
+  mission?: string;
+  dataUrl?: string;
 }
 
-const sampleLunarData: DataPoint[] = [
+const apolloLunarData: DataPoint[] = [
   {
     id: '1',
-    name: 'Apollo 11 Landing Site',
+    name: 'Apollo 11 Landing Site - Sea of Tranquility',
     coordinates: [23.473, 0.674],
-    type: 'mass_spectrometry',
+    type: 'seismic_data',
     tier: 'public',
-    description: 'Historical landing site with public regolith analysis data'
+    description: 'First lunar landing site with Early Apollo Scientific Experiment Package (EASEP) including passive seismic experiment',
+    mission: 'Apollo 11',
+    dataUrl: 'https://pds.nasa.gov/ds-view/pds/viewBundle.jsp?identifier=urn%3Anasa%3Apds%3Aapollo_seismic_event_catalog'
   },
   {
-    id: '2',
-    name: 'Mare Imbrium Basin',
-    coordinates: [-15.0, 32.8],
-    type: 'video_mapping',
-    tier: 'premium',
-    description: 'High-resolution video mapping of lunar maria formation'
+    id: '2', 
+    name: 'Apollo 12 Landing Site - Ocean of Storms',
+    coordinates: [-23.42, -3.01],
+    type: 'seismic_data',
+    tier: 'public',
+    description: 'Apollo Lunar Surface Experiments Package (ALSEP) with passive seismic experiment, solar wind spectrometer, and suprathermal ion detector',
+    mission: 'Apollo 12'
   },
   {
     id: '3',
-    name: 'South Pole-Aitken Basin',
-    coordinates: [-180.0, -56.0],
-    type: 'sample_analysis',
-    tier: 'developer',
-    description: 'Advanced compositional analysis for research partners'
+    name: 'Apollo 14 Landing Site - Fra Mauro',
+    coordinates: [-17.48, -3.64],
+    type: 'seismic_data', 
+    tier: 'public',
+    description: 'ALSEP passive seismic experiment and cold cathode ion gauge experiment at Fra Mauro formation',
+    mission: 'Apollo 14'
   },
   {
     id: '4',
     name: 'Apollo 15 Heat Flow Experiment',
     coordinates: [3.66, 26.08],
-    type: 'thermal_imaging',
+    type: 'thermal_analysis',
     tier: 'public',
-    description: 'Thermal conductivity and temperature data from Apollo 15 ALSEP Heat Flow Experiment'
+    description: 'Heat Flow Experiment measuring subsurface thermal properties with gradient bridge temperature sensors',
+    mission: 'Apollo 15',
+    dataUrl: 'https://pds.nasa.gov/ds-view/pds/viewBundle.jsp?identifier=urn%3Anasa%3Apds%3Aa15hfe_calibrated_arcsav'
   },
   {
     id: '5',
-    name: 'Lunar Reconnaissance Orbiter Site',
-    coordinates: [-23.47, -8.60],
-    type: 'thermal_imaging',
+    name: 'Apollo 15 Orbital Photography',
+    coordinates: [3.66, 26.08],
+    type: 'photographic',
     tier: 'premium',
-    description: 'High-resolution thermal imaging of permanently shadowed regions'
+    description: 'Metric (mapping) and panoramic camera images from Command and Service Module orbital observations',
+    mission: 'Apollo 15',
+    dataUrl: 'https://pds.nasa.gov/ds-view/pds/viewBundle.jsp?identifier=urn%3Anasa%3Apds%3Aa15photosupportdata'
+  },
+  {
+    id: '6',
+    name: 'Apollo 15 Mass Spectrometer',
+    coordinates: [3.66, 26.08],
+    type: 'mass_spectrometry',
+    tier: 'developer',
+    description: 'Orbital Mass Spectrometer Experiment measuring lunar atmospheric composition',
+    mission: 'Apollo 15'
+  },
+  {
+    id: '7',
+    name: 'Apollo 16 Descartes Highlands',
+    coordinates: [15.50, -8.60],
+    type: 'photographic',
+    tier: 'premium', 
+    description: 'Metric and panoramic camera photography of lunar highlands with photographic ephemeris support data',
+    mission: 'Apollo 16',
+    dataUrl: 'https://pds.nasa.gov/ds-view/pds/viewBundle.jsp?identifier=urn%3Anasa%3Apds%3Aa16photosupportdata'
+  },
+  {
+    id: '8',
+    name: 'Apollo 16 Mass Spectrometer',
+    coordinates: [15.50, -8.60], 
+    type: 'mass_spectrometry',
+    tier: 'developer',
+    description: 'Orbital Mass Spectrometer Experiment data from Command and Service Module',
+    mission: 'Apollo 16'
+  },
+  {
+    id: '9',
+    name: 'Apollo 17 Heat Flow Experiment',
+    coordinates: [30.77, 20.19],
+    type: 'thermal_analysis',
+    tier: 'public',
+    description: 'Heat Flow Experiment with calibrated gradient bridge temperature data from Taurus-Littrow valley',
+    mission: 'Apollo 17',
+    dataUrl: 'https://pds.nasa.gov/ds-view/pds/viewBundle.jsp?identifier=urn%3Anasa%3Apds%3Aa17hfe_calibrated_arcsav'
+  },
+  {
+    id: '10',
+    name: 'Apollo 17 Lunar Ejecta and Meteorites Experiment',
+    coordinates: [30.77, 20.19],
+    type: 'dust_analysis',
+    tier: 'public',
+    description: 'LEAM experiment measuring lunar dust and meteorite impact particles',
+    mission: 'Apollo 17',
+    dataUrl: 'https://pds.nasa.gov/ds-view/pds/viewBundle.jsp?identifier=urn%3Anasa%3Apds%3Aa17leam_raw_worktape'
+  },
+  {
+    id: '11', 
+    name: 'Apollo 17 Lunar Surface Gravimeter',
+    coordinates: [30.77, 20.19],
+    type: 'gravimeter_data',
+    tier: 'premium',
+    description: 'Lunar Surface Gravimeter measuring local gravitational variations and seismic activity',
+    mission: 'Apollo 17',
+    dataUrl: 'https://pds.nasa.gov/ds-view/pds/viewBundle.jsp?identifier=urn%3Anasa%3Apds%3Aa17lsg_raw_arcsav'
+  },
+  {
+    id: '12',
+    name: 'Apollo 17 Orbital Photography', 
+    coordinates: [30.77, 20.19],
+    type: 'photographic',
+    tier: 'premium',
+    description: 'Comprehensive photographic mapping from Metric and Panoramic cameras with ephemeris support data',
+    mission: 'Apollo 17',
+    dataUrl: 'https://pds.nasa.gov/ds-view/pds/viewBundle.jsp?identifier=urn%3Anasa%3Apds%3Aa17photosupportdata'
   }
 ];
 
@@ -120,7 +198,7 @@ const LunarMap: React.FC = () => {
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
-          features: sampleLunarData.map(point => ({
+          features: apolloLunarData.map(point => ({
             type: 'Feature',
             properties: {
               id: point.id,
@@ -152,9 +230,12 @@ const LunarMap: React.FC = () => {
           'circle-color': [
             'case',
             ['==', ['get', 'type'], 'mass_spectrometry'], '#ef4444', // Red for spectrometry
-            ['==', ['get', 'type'], 'video_mapping'], '#3b82f6', // Blue for video/image
-            ['==', ['get', 'type'], 'thermal_imaging'], '#f59e0b', // Orange for thermal
-            '#22c55e' // Green for sample analysis
+            ['==', ['get', 'type'], 'photographic'], '#3b82f6', // Blue for photography
+            ['==', ['get', 'type'], 'thermal_analysis'], '#f59e0b', // Orange for thermal
+            ['==', ['get', 'type'], 'seismic_data'], '#8b5cf6', // Purple for seismic
+            ['==', ['get', 'type'], 'gravimeter_data'], '#06b6d4', // Cyan for gravimeter
+            ['==', ['get', 'type'], 'dust_analysis'], '#22c55e', // Green for dust analysis
+            '#6b7280' // Gray for unknown
           ],
           'circle-stroke-width': 2,
           'circle-stroke-color': '#ffffff'
@@ -165,7 +246,7 @@ const LunarMap: React.FC = () => {
       map.current.on('click', 'lunar-data-circles', (e) => {
         if (e.features && e.features[0]) {
           const feature = e.features[0];
-          const point = sampleLunarData.find(p => p.id === feature.properties?.id);
+          const point = apolloLunarData.find(p => p.id === feature.properties?.id);
           if (point) {
             setSelectedPoint(point);
           }
@@ -194,9 +275,11 @@ const LunarMap: React.FC = () => {
   const getDataTypeColor = (type: string) => {
     switch (type) {
       case 'mass_spectrometry': return 'bg-red-500';
-      case 'video_mapping': return 'bg-blue-500';
-      case 'thermal_imaging': return 'bg-amber-500';
-      case 'sample_analysis': return 'bg-green-500';
+      case 'photographic': return 'bg-blue-500';
+      case 'thermal_analysis': return 'bg-amber-500';
+      case 'seismic_data': return 'bg-purple-500';
+      case 'gravimeter_data': return 'bg-cyan-500';
+      case 'dust_analysis': return 'bg-green-500';
       default: return 'bg-gray-500';
     }
   };
@@ -230,11 +313,16 @@ const LunarMap: React.FC = () => {
             </div>
             <div className="flex gap-2">
               <Badge className={`${getDataTypeColor(selectedPoint.type)} text-white`}>
-                {selectedPoint.type.replace('_', ' ').toUpperCase()}
+                {selectedPoint.type.replace(/_/g, ' ').toUpperCase()}
               </Badge>
               <Badge className={getTierColor(selectedPoint.tier)}>
                 {selectedPoint.tier.toUpperCase()}
               </Badge>
+              {selectedPoint.mission && (
+                <Badge variant="outline">
+                  {selectedPoint.mission}
+                </Badge>
+              )}
             </div>
           </CardHeader>
           <CardContent>
@@ -244,10 +332,11 @@ const LunarMap: React.FC = () => {
             <Button 
               className="w-full"
               onClick={() => {
-                if (selectedPoint.id === '1') {
-                  window.open('https://spdf.gsfc.nasa.gov/pub/data/apollo/apollo11_cdaweb/hk_dtrem/1969/', '_blank');
-                } else if (selectedPoint.id === '4') {
-                  window.open('https://spdf.gsfc.nasa.gov/pub/data/apollo/apollo15_alsep/heat_flow_experiment_hfe/data/PSPG-00752_1284752997_APOLLO15_HDF_1/', '_blank');
+                if (selectedPoint.dataUrl) {
+                  window.open(selectedPoint.dataUrl, '_blank');
+                } else if (selectedPoint.tier === 'public') {
+                  // Fallback to NASA PDS search for the mission
+                  window.open(`https://pds.nasa.gov/datasearch/data-search/?mission=${selectedPoint.mission?.replace(' ', '%20')}`, '_blank');
                 }
               }}
             >
@@ -271,15 +360,23 @@ const LunarMap: React.FC = () => {
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 rounded-full bg-blue-500"></div>
-            <span className="text-sm">Video/Image Mapping</span>
+            <span className="text-sm">Photography/Imaging</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 rounded-full bg-amber-500"></div>
-            <span className="text-sm">Thermal Imaging</span>
+            <span className="text-sm">Thermal Analysis</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-purple-500"></div>
+            <span className="text-sm">Seismic Data</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-cyan-500"></div>
+            <span className="text-sm">Gravimeter Data</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 rounded-full bg-green-500"></div>
-            <span className="text-sm">Sample Analysis</span>
+            <span className="text-sm">Dust Analysis</span>
           </div>
         </CardContent>
       </Card>
