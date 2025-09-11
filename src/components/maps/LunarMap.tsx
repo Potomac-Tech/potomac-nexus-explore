@@ -12,14 +12,14 @@ interface DataPoint {
   id: string;
   name: string;
   coordinates: [number, number];
-  type: 'mass_spectrometry' | 'photographic' | 'thermal_analysis' | 'seismic_data' | 'gravimeter_data' | 'dust_analysis';
+  type: 'mass_spectrometry' | 'photographic' | 'thermal_analysis' | 'seismic_data' | 'gravimeter_data' | 'dust_analysis' | 'soil_analysis';
   tier: 'public' | 'premium' | 'developer';
   description: string;
   mission?: string;
   dataUrl?: string;
 }
 
-const apolloLunarData: DataPoint[] = [
+const lunarMissionData: DataPoint[] = [
   {
     id: '1',
     name: 'Apollo 11 Landing Site - Sea of Tranquility',
@@ -135,6 +135,52 @@ const apolloLunarData: DataPoint[] = [
     description: 'Comprehensive photographic mapping from Metric and Panoramic cameras with ephemeris support data',
     mission: 'Apollo 17',
     dataUrl: 'https://pds.nasa.gov/ds-view/pds/viewBundle.jsp?identifier=urn%3Anasa%3Apds%3Aa17photosupportdata'
+  },
+  // Surveyor Mission Data Points
+  {
+    id: '13',
+    name: 'Surveyor 1 Landing Site - Ocean of Storms',
+    coordinates: [316.661, -2.474],
+    type: 'photographic',
+    tier: 'public',
+    description: 'First successful U.S. soft lunar landing. Transmitted over 11,000 images of the lunar surface and conducted engineering tests',
+    mission: 'Surveyor 1'
+  },
+  {
+    id: '14',
+    name: 'Surveyor 3 Landing Site - Ocean of Storms',
+    coordinates: [336.582, -3.015],
+    type: 'soil_analysis',
+    tier: 'public',
+    description: 'Soft landing with soil mechanics surface sampler. Later visited by Apollo 12 crew who retrieved parts for Earth analysis',
+    mission: 'Surveyor 3'
+  },
+  {
+    id: '15',
+    name: 'Surveyor 5 Landing Site - Mare Tranquillitatis',
+    coordinates: [23.195, 1.461],
+    type: 'soil_analysis',
+    tier: 'premium',
+    description: 'First chemical analysis of lunar soil using alpha particle scattering instrument. Analyzed elemental composition of lunar regolith',
+    mission: 'Surveyor 5'
+  },
+  {
+    id: '16',
+    name: 'Surveyor 6 Landing Site - Sinus Successus',
+    coordinates: [358.573, 0.473],
+    type: 'photographic',
+    tier: 'public',
+    description: 'Soft landing with comprehensive photographic survey and soil analysis. Demonstrated vernier engine restart capability',
+    mission: 'Surveyor 6'
+  },
+  {
+    id: '17',
+    name: 'Surveyor 7 Landing Site - Tycho Crater Rim',
+    coordinates: [348.491, -40.980],
+    type: 'soil_analysis',
+    tier: 'premium',
+    description: 'Only Surveyor mission to lunar highlands. Analyzed highland material near Tycho crater rim with alpha particle scattering',
+    mission: 'Surveyor 7'
   }
 ];
 
@@ -198,7 +244,7 @@ const LunarMap: React.FC = () => {
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
-          features: apolloLunarData.map(point => ({
+          features: lunarMissionData.map(point => ({
             type: 'Feature',
             properties: {
               id: point.id,
@@ -235,6 +281,7 @@ const LunarMap: React.FC = () => {
             ['==', ['get', 'type'], 'seismic_data'], '#8b5cf6', // Purple for seismic
             ['==', ['get', 'type'], 'gravimeter_data'], '#06b6d4', // Cyan for gravimeter
             ['==', ['get', 'type'], 'dust_analysis'], '#22c55e', // Green for dust analysis
+            ['==', ['get', 'type'], 'soil_analysis'], '#eab308', // Yellow for soil analysis
             '#6b7280' // Gray for unknown
           ],
           'circle-stroke-width': 2,
@@ -246,7 +293,7 @@ const LunarMap: React.FC = () => {
       map.current.on('click', 'lunar-data-circles', (e) => {
         if (e.features && e.features[0]) {
           const feature = e.features[0];
-          const point = apolloLunarData.find(p => p.id === feature.properties?.id);
+          const point = lunarMissionData.find(p => p.id === feature.properties?.id);
           if (point) {
             setSelectedPoint(point);
           }
@@ -280,6 +327,7 @@ const LunarMap: React.FC = () => {
       case 'seismic_data': return 'bg-purple-500';
       case 'gravimeter_data': return 'bg-cyan-500';
       case 'dust_analysis': return 'bg-green-500';
+      case 'soil_analysis': return 'bg-yellow-500';
       default: return 'bg-gray-500';
     }
   };
@@ -377,6 +425,10 @@ const LunarMap: React.FC = () => {
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 rounded-full bg-green-500"></div>
             <span className="text-sm">Dust Analysis</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-4 rounded-full bg-yellow-500"></div>
+            <span className="text-sm">Soil Analysis</span>
           </div>
         </CardContent>
       </Card>
