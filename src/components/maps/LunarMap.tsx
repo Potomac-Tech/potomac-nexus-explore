@@ -181,6 +181,43 @@ const lunarMissionData: DataPoint[] = [
     tier: 'premium',
     description: 'Only Surveyor mission to lunar highlands. Analyzed highland material near Tycho crater rim with alpha particle scattering',
     mission: 'Surveyor 7'
+  },
+  // Chang'e Mission Data Points
+  {
+    id: '18',
+    name: 'Chang\'e 3 Landing Site - Mare Imbrium',
+    coordinates: [-19.51, 44.12],
+    type: 'soil_analysis',
+    tier: 'public',
+    description: 'First Chinese lunar lander with Yutu rover. Conducted geological surveys and soil analysis on basaltic plains of Mare Imbrium',
+    mission: 'Chang\'e 3'
+  },
+  {
+    id: '19',
+    name: 'Chang\'e 4 Landing Site - Von Kármán Crater',
+    coordinates: [177.5991, -45.4446],
+    type: 'photographic',
+    tier: 'public',
+    description: 'First successful landing on lunar far side within Von Kármán crater in South Pole-Aitken basin. Yutu-2 rover conducting ongoing exploration',
+    mission: 'Chang\'e 4'
+  },
+  {
+    id: '20',
+    name: 'Chang\'e 5 Landing Site - Oceanus Procellarum',
+    coordinates: [-51.92, 43.06],
+    type: 'soil_analysis',
+    tier: 'premium',
+    description: 'Sample return mission in Oceanus Procellarum near Mons Rümker. Collected 1.73 kg of lunar samples from young basaltic region',
+    mission: 'Chang\'e 5'
+  },
+  {
+    id: '21',
+    name: 'Chang\'e 6 Landing Site - Apollo Basin',
+    coordinates: [-153.9852, -41.6385],
+    type: 'soil_analysis',
+    tier: 'premium',
+    description: 'First sample return mission from lunar far side. Landed in Apollo basin within South Pole-Aitken basin for unique geological sampling',
+    mission: 'Chang\'e 6'
   }
 ];
 
