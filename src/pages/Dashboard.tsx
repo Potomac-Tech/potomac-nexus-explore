@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Moon, Waves, Atom, BarChart3, Database, TrendingUp, ShoppingCart } from "lucide-react";
+import { Moon, Waves, Atom, BarChart3, Database, TrendingUp, ShoppingCart, Users } from "lucide-react";
 import { ModuleCard } from "@/components/dashboard/ModuleCard";
 import { SecurityOverview } from "@/components/dashboard/SecurityOverview";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -58,11 +58,11 @@ export default function Dashboard() {
       icon: Database
     },
     {
-      title: "Active Analyses",
-      value: "847",
-      change: "+8.2%",
+      title: "Active Users",
+      value: "127",
+      change: "+5.4%",
       trend: "up",
-      icon: BarChart3
+      icon: Users
     },
     {
       title: "Processing Queue",
