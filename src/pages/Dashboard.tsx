@@ -76,14 +76,25 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gradient-celestial">
       <div className="container mx-auto p-6 space-y-8">
-        {/* Welcome Section */}
+        {/* Welcome Section with 3D Logo */}
         <div className="flow-in">
-          <h1 className="text-4xl font-bold text-foreground mb-2">
-            Welcome back, {displayName}
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Access your scientific databases and monitor system performance
-          </p>
+          <div className="flex items-center gap-4 mb-4">
+            <div className="dashboard-logo-3d">
+              <img 
+                src="/lovable-uploads/21fa0edb-b252-42c1-bd21-38a5e74baa22.png" 
+                alt="Potomac Logo" 
+                className="w-16 h-16"
+              />
+            </div>
+            <div>
+              <h1 className="text-4xl font-bold text-foreground mb-2">
+                Welcome back, {displayName}
+              </h1>
+              <p className="text-lg text-muted-foreground">
+                Access your scientific databases and monitor system performance
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* System Statistics */}
