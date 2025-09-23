@@ -78,12 +78,21 @@ export default function Dashboard() {
       <div className="container mx-auto p-6 space-y-8">
         {/* Welcome Section */}
         <div className="flow-in">
-          <h1 className="text-4xl font-bold text-foreground mb-2">
-            Welcome back, {displayName}
-          </h1>
-          <p className="text-lg text-muted-foreground">
-            Access your scientific databases and monitor system performance
-          </p>
+          <div className="flex items-center space-x-4 mb-6">
+            <img 
+              src="/lovable-uploads/21fa0edb-b252-42c1-bd21-38a5e74baa22.png" 
+              alt="Potomac Logo" 
+              className="w-16 h-16"
+            />
+            <div>
+              <h1 className="text-4xl font-bold text-foreground mb-2">
+                Welcome back, {displayName}
+              </h1>
+              <p className="text-lg text-muted-foreground">
+                Access your scientific databases and monitor system performance
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* System Statistics */}

@@ -84,7 +84,7 @@ export function AppSidebar() {
           <img 
             src="/lovable-uploads/21fa0edb-b252-42c1-bd21-38a5e74baa22.png" 
             alt="Potomac Logo" 
-            className={`${collapsed ? "w-8 h-8" : "w-10 h-10"} animate-swan-float`}
+            className={`${collapsed ? "w-8 h-8" : "w-10 h-10"}`}
           />
           {!collapsed && (
             <div className="ml-3">
