@@ -133,31 +133,6 @@ All colors are HSL and inspired by the elegant swan logo with celestial elements
   .sparkle {
     @apply animate-[sparkle_2s_ease-in-out_infinite];
   }
-
-  /* 3D Logo for Dashboard */
-  .dashboard-logo-3d {
-    position: relative;
-    perspective: 1000px;
-  }
-  
-  .dashboard-logo-3d img {
-    transform-style: preserve-3d;
-    transform: rotateX(15deg) rotateY(-15deg);
-    box-shadow: 
-      0 10px 30px rgba(0, 0, 0, 0.3),
-      0 0 0 1px rgba(255, 255, 255, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    transition: all 0.3s ease;
-  }
-  
-  .dashboard-logo-3d:hover img {
-    transform: rotateX(10deg) rotateY(-10deg) translateY(-2px);
-    box-shadow: 
-      0 15px 40px rgba(0, 0, 0, 0.4),
-      0 0 0 1px rgba(255, 255, 255, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  }
 }
 
 @layer base {
