@@ -7,6 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
 import { Shield, Building2, Smartphone, Mail } from 'lucide-react';
+import { FcGoogle } from 'react-icons/fc';
+import { FaMicrosoft } from 'react-icons/fa';
 import { useAuth } from '@/contexts/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useToast } from '@/hooks/use-toast';
@@ -19,7 +21,7 @@ const Auth = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const { signIn, signUp, signInWithSAML } = useAuth();
+  const { signIn, signUp, signInWithSAML, signInWithGoogle, signInWithMicrosoft } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
@@ -110,6 +112,38 @@ const Auth = () => {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const { error } = await signInWithGoogle();
+      if (error) {
+        setError(error.message);
+      }
+    } catch (err) {
+      setError('Google authentication failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleMicrosoftSignIn = async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const { error } = await signInWithMicrosoft();
+      if (error) {
+        setError(error.message);
+      }
+    } catch (err) {
+      setError('Microsoft authentication failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
       <Card className="w-full max-w-md shadow-2xl border-border/50">
@@ -137,6 +171,38 @@ const Auth = () => {
             )}
 
             <TabsContent value="signin" className="space-y-4">
+              <div className="space-y-3">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="w-full" 
+                  onClick={handleGoogleSignIn}
+                  disabled={loading}
+                >
+                  <FcGoogle className="w-5 h-5 mr-2" />
+                  Continue with Google
+                </Button>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="w-full" 
+                  onClick={handleMicrosoftSignIn}
+                  disabled={loading}
+                >
+                  <FaMicrosoft className="w-5 h-5 mr-2 text-[#00A4EF]" />
+                  Continue with Microsoft
+                </Button>
+              </div>
+
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <Separator />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">Or continue with email</span>
+                </div>
+              </div>
+
               <form onSubmit={handleSignIn} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="email">Email</Label>
@@ -167,6 +233,38 @@ const Auth = () => {
             </TabsContent>
 
             <TabsContent value="signup" className="space-y-4">
+              <div className="space-y-3">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="w-full" 
+                  onClick={handleGoogleSignIn}
+                  disabled={loading}
+                >
+                  <FcGoogle className="w-5 h-5 mr-2" />
+                  Sign up with Google
+                </Button>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  className="w-full" 
+                  onClick={handleMicrosoftSignIn}
+                  disabled={loading}
+                >
+                  <FaMicrosoft className="w-5 h-5 mr-2 text-[#00A4EF]" />
+                  Sign up with Microsoft
+                </Button>
+              </div>
+
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <Separator />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">Or sign up with email</span>
+                </div>
+              </div>
+
               <form onSubmit={handleSignUp} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="signup-email">Email</Label>

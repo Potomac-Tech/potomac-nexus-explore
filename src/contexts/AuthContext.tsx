@@ -10,6 +10,8 @@ interface AuthContextType {
   signUp: (email: string, password: string, options?: { data?: any }) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   signInWithSAML: (domain: string) => Promise<{ error: any }>;
+  signInWithGoogle: () => Promise<{ error: any }>;
+  signInWithMicrosoft: () => Promise<{ error: any }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -120,6 +122,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { error };
   };
 
+  const signInWithGoogle = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/dashboard`
+      }
+    });
+    return { error };
+  };
+
+  const signInWithMicrosoft = async () => {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'azure',
+      options: {
+        redirectTo: `${window.location.origin}/dashboard`,
+        scopes: 'email'
+      }
+    });
+    return { error };
+  };
+
   return (
     <AuthContext.Provider value={{
       user,
@@ -129,6 +152,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       signUp,
       signOut,
       signInWithSAML,
+      signInWithGoogle,
+      signInWithMicrosoft,
     }}>
       {children}
     </AuthContext.Provider>
