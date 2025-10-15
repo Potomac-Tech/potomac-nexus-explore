@@ -4,6 +4,10 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Search, Layers } from 'lucide-react';
 
 // Set Mapbox access token
 mapboxgl.accessToken = 'pk.eyJ1IjoiamFjb2ItbWF0dGhld3MiLCJhIjoiY21kZ3FkbjJwMHB4bjJsbzhxN2N6cGpiNCJ9.5TBF1McUmSJcFRAs62qAVw';
@@ -225,6 +229,12 @@ const LunarMap: React.FC = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const [selectedPoint, setSelectedPoint] = useState<DataPoint | null>(null);
+  const [searchLat, setSearchLat] = useState('');
+  const [searchLng, setSearchLng] = useState('');
+  const [showLayers, setShowLayers] = useState(false);
+  const [psrLayerVisible, setPsrLayerVisible] = useState(false);
+  const [spectrographLayerVisible, setSpectrographLayerVisible] = useState(false);
+  const searchMarker = useRef<mapboxgl.Marker | null>(null);
 
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
@@ -349,12 +359,107 @@ const LunarMap: React.FC = () => {
           map.current.getCanvas().style.cursor = '';
         }
       });
+
+      // Add PSR layer (Permanently Shadowed Regions)
+      map.current.addSource('psr-layer', {
+        type: 'raster',
+        tiles: [
+          'https://trek.nasa.gov/tiles/Moon/EQ/LRO_LOLA_Shade_Global_256ppd/1.0.0/default/default028mm/{z}/{y}/{x}.jpg'
+        ],
+        tileSize: 256
+      });
+
+      map.current.addLayer({
+        id: 'psr-overlay',
+        type: 'raster',
+        source: 'psr-layer',
+        paint: {
+          'raster-opacity': 0.6
+        },
+        layout: {
+          visibility: 'none'
+        }
+      });
+
+      // Add Spectrograph layer (M3 data from LRO)
+      map.current.addSource('spectrograph-layer', {
+        type: 'raster',
+        tiles: [
+          'https://trek.nasa.gov/tiles/Moon/EQ/LRO_LOLA_ClrShade_Global_128ppd_v04/1.0.0/default/default028mm/{z}/{y}/{x}.jpg'
+        ],
+        tileSize: 256
+      });
+
+      map.current.addLayer({
+        id: 'spectrograph-overlay',
+        type: 'raster',
+        source: 'spectrograph-layer',
+        paint: {
+          'raster-opacity': 0.7
+        },
+        layout: {
+          visibility: 'none'
+        }
+      });
     });
 
     return () => {
+      searchMarker.current?.remove();
       map.current?.remove();
     };
   }, []);
+
+  // Handle PSR layer visibility
+  useEffect(() => {
+    if (map.current && map.current.getLayer('psr-overlay')) {
+      map.current.setLayoutProperty(
+        'psr-overlay',
+        'visibility',
+        psrLayerVisible ? 'visible' : 'none'
+      );
+    }
+  }, [psrLayerVisible]);
+
+  // Handle Spectrograph layer visibility
+  useEffect(() => {
+    if (map.current && map.current.getLayer('spectrograph-overlay')) {
+      map.current.setLayoutProperty(
+        'spectrograph-overlay',
+        'visibility',
+        spectrographLayerVisible ? 'visible' : 'none'
+      );
+    }
+  }, [spectrographLayerVisible]);
+
+  const handleCoordinateSearch = () => {
+    const lat = parseFloat(searchLat);
+    const lng = parseFloat(searchLng);
+
+    if (isNaN(lat) || isNaN(lng)) {
+      return;
+    }
+
+    if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+      return;
+    }
+
+    if (map.current) {
+      // Remove previous marker if exists
+      searchMarker.current?.remove();
+
+      // Add new marker
+      searchMarker.current = new mapboxgl.Marker({ color: '#22c55e' })
+        .setLngLat([lng, lat])
+        .addTo(map.current);
+
+      // Fly to location
+      map.current.flyTo({
+        center: [lng, lat],
+        zoom: 6,
+        duration: 2000
+      });
+    }
+  };
 
   const getDataTypeColor = (type: string) => {
     switch (type) {
@@ -382,9 +487,96 @@ const LunarMap: React.FC = () => {
     <div className="relative w-full h-screen">
       <div ref={mapContainer} className="absolute inset-0" />
       
+      {/* Coordinate Search Panel */}
+      <Card className="absolute top-4 left-4 w-80 z-10">
+        <CardHeader>
+          <CardTitle className="text-sm flex items-center gap-2">
+            <Search className="w-4 h-4" />
+            Search by Coordinates
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <Label htmlFor="lat" className="text-xs">Latitude</Label>
+              <Input
+                id="lat"
+                type="number"
+                placeholder="-90 to 90"
+                value={searchLat}
+                onChange={(e) => setSearchLat(e.target.value)}
+                className="h-8"
+              />
+            </div>
+            <div>
+              <Label htmlFor="lng" className="text-xs">Longitude</Label>
+              <Input
+                id="lng"
+                type="number"
+                placeholder="-180 to 180"
+                value={searchLng}
+                onChange={(e) => setSearchLng(e.target.value)}
+                className="h-8"
+              />
+            </div>
+          </div>
+          <Button 
+            onClick={handleCoordinateSearch} 
+            className="w-full h-8"
+            size="sm"
+          >
+            Search Location
+          </Button>
+        </CardContent>
+      </Card>
+
+      {/* Layers Control Panel */}
+      <Card className="absolute top-4 right-4 w-72 z-10">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-sm flex items-center gap-2">
+              <Layers className="w-4 h-4" />
+              Map Layers
+            </CardTitle>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setShowLayers(!showLayers)}
+              className="h-6 px-2"
+            >
+              {showLayers ? '−' : '+'}
+            </Button>
+          </div>
+        </CardHeader>
+        {showLayers && (
+          <CardContent className="space-y-3">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="psr-layer" className="text-sm">
+                Permanently Shadowed Regions
+              </Label>
+              <Switch
+                id="psr-layer"
+                checked={psrLayerVisible}
+                onCheckedChange={setPsrLayerVisible}
+              />
+            </div>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="spectrograph-layer" className="text-sm">
+                Orbital Spectrograph Maps
+              </Label>
+              <Switch
+                id="spectrograph-layer"
+                checked={spectrographLayerVisible}
+                onCheckedChange={setSpectrographLayerVisible}
+              />
+            </div>
+          </CardContent>
+        )}
+      </Card>
+      
       {/* Data Point Details Panel */}
       {selectedPoint && (
-        <Card className="absolute top-4 left-4 w-80 z-10">
+        <Card className="absolute top-56 left-4 w-80 z-10">
           <CardHeader>
             <div className="flex justify-between items-start">
               <CardTitle className="text-lg">{selectedPoint.name}</CardTitle>

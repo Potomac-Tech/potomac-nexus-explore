@@ -7,7 +7,6 @@ import {
   BarChart3,
   Moon,
   Waves,
-  Atom,
   ChevronRight,
   ShoppingCart
 } from "lucide-react";
@@ -43,12 +42,6 @@ const dataModules = [
     url: "/seabed", 
     icon: Waves,
     description: "Marine ecosystem analysis"
-  },
-  { 
-    title: "Material Science", 
-    url: "/materials", 
-    icon: Atom,
-    description: "Structural & compositional data"
   },
 ];
 
