@@ -401,6 +401,26 @@ const LunarMap: React.FC = () => {
           visibility: 'none'
         }
       });
+
+      // Add high-resolution South Pole tiles for improved polar coverage
+      map.current.addSource('south-pole-tiles', {
+        type: 'raster',
+        tiles: [
+          'https://trek.nasa.gov/tiles/Moon/EQ/LRO_WAC_Mosaic_Global_643ppd/1.0.0/default/default028mm/{z}/{y}/{x}.jpg'
+        ],
+        tileSize: 256,
+        minzoom: 0,
+        maxzoom: 10
+      });
+
+      map.current.addLayer({
+        id: 'south-pole-overlay',
+        type: 'raster',
+        source: 'south-pole-tiles',
+        paint: {
+          'raster-opacity': 1
+        }
+      }, 'lunar-data-circles');
     });
 
     return () => {
