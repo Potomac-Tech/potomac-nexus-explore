@@ -248,7 +248,7 @@ const LunarMap: React.FC = () => {
           'moon-tiles': {
             type: 'raster',
             tiles: [
-              'https://trek.nasa.gov/tiles/Moon/EQ/LRO_WAC_Mosaic_Global_303ppd/1.0.0/default/default028mm/{z}/{y}/{x}.jpg'
+              'https://trek.nasa.gov/tiles/Moon/EQ/LRO_LOLA_ClrShade_Global_128ppd_v04/1.0.0/default/default028mm/{z}/{y}/{x}.jpg'
             ],
             tileSize: 256,
             minzoom: 0,
@@ -402,8 +402,19 @@ const LunarMap: React.FC = () => {
         }
       });
 
-      // Use standard equirectangular tiles - polar distortion is inherent to globe projection
-      // For best polar viewing, users should zoom in closer to the poles
+      // Auto-switch projection near the poles to reduce spiral distortion with LOLA RDR tiles
+      const updatePolarProjection = () => {
+        if (!map.current) return;
+        const lat = map.current.getCenter().lat;
+        const target = Math.abs(lat) >= 60 ? 'equirectangular' : 'globe';
+        const current = (map.current as any).getProjection?.().name;
+        if (current !== target) {
+          (map.current as any).setProjection(target);
+        }
+      };
+      map.current.on('moveend', updatePolarProjection);
+      // Initialize correct projection based on starting center
+      updatePolarProjection();
     });
 
     return () => {
