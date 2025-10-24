@@ -279,6 +279,12 @@ const LunarMap: React.FC = () => {
       pitch: 0,
     });
 
+    // Add error logging
+    map.current.on('error', (e) => {
+      // Surface tile/CORS/projection issues in console
+      console.error('Mapbox error:', (e as any)?.error || e);
+    });
+
     // Add navigation controls
     map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
 
@@ -366,7 +372,8 @@ const LunarMap: React.FC = () => {
         tiles: [
           'https://trek.nasa.gov/tiles/Moon/EQ/LRO_LOLA_Shade_Global_256ppd/1.0.0/default/default028mm/{z}/{y}/{x}.jpg'
         ],
-        tileSize: 256
+        tileSize: 256,
+        scheme: 'tms'
       });
 
       map.current.addLayer({
@@ -387,7 +394,8 @@ const LunarMap: React.FC = () => {
         tiles: [
           'https://trek.nasa.gov/tiles/Moon/EQ/LRO_LOLA_ClrShade_Global_128ppd_v04/1.0.0/default/default028mm/{z}/{y}/{x}.jpg'
         ],
-        tileSize: 256
+        tileSize: 256,
+        scheme: 'tms'
       });
 
       map.current.addLayer({
