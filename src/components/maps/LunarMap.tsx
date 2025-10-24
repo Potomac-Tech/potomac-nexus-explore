@@ -425,10 +425,12 @@ const LunarMap: React.FC = () => {
         type: 'raster',
         source: 'north-pole-layer',
         paint: {
-          'raster-opacity': 1
+          'raster-opacity': 1,
+          'raster-resampling': 'nearest',
+          'raster-fade-duration': 0
         },
         layout: {
-          visibility: 'visible'
+          visibility: 'none'
         }
       });
 
@@ -450,10 +452,39 @@ const LunarMap: React.FC = () => {
           'raster-opacity': 1
         },
         layout: {
-          visibility: 'visible'
+          visibility: 'none'
         }
       });
     });
+
+    // Switch projection and toggle polar overlays near poles
+    const updatePolarView = () => {
+      if (!map.current) return;
+      const lat = map.current.getCenter().lat;
+      const target = Math.abs(lat) >= 70 ? 'equirectangular' : 'globe';
+      const current = (map.current as any).getProjection?.().name;
+      if (current !== target) {
+        (map.current as any).setProjection(target as any);
+      }
+      const northVisible = lat >= 70;
+      const southVisible = lat <= -70;
+      if (map.current.getLayer('north-pole-overlay')) {
+        map.current.setLayoutProperty(
+          'north-pole-overlay',
+          'visibility',
+          northVisible ? 'visible' : 'none'
+        );
+      }
+      if (map.current.getLayer('south-pole-overlay')) {
+        map.current.setLayoutProperty(
+          'south-pole-overlay',
+          'visibility',
+          southVisible ? 'visible' : 'none'
+        );
+      }
+    };
+    map.current.on('moveend', updatePolarView);
+    updatePolarView();
 
     return () => {
       searchMarker.current?.remove();
