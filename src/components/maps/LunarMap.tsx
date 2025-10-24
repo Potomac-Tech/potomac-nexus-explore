@@ -410,8 +410,49 @@ const LunarMap: React.FC = () => {
         }
       });
 
-      // Note: Polar distortion is inherent to globe projection with equirectangular tiles
-      // NASA Trek tiles use standard equirectangular format optimized for global viewing
+      // Add North Pole LOLA fill layer
+      map.current.addSource('north-pole-layer', {
+        type: 'raster',
+        tiles: [
+          'https://trek.nasa.gov/tiles/Moon/NP/LRO_WAC_Mosaic_North_Polar_118mperpx/1.0.0/default/default028mm/{z}/{y}/{x}.jpg'
+        ],
+        tileSize: 256,
+        scheme: 'tms'
+      });
+
+      map.current.addLayer({
+        id: 'north-pole-overlay',
+        type: 'raster',
+        source: 'north-pole-layer',
+        paint: {
+          'raster-opacity': 1
+        },
+        layout: {
+          visibility: 'visible'
+        }
+      });
+
+      // Add South Pole LOLA fill layer
+      map.current.addSource('south-pole-layer', {
+        type: 'raster',
+        tiles: [
+          'https://trek.nasa.gov/tiles/Moon/SP/LRO_WAC_Mosaic_South_Polar_118mperpx/1.0.0/default/default028mm/{z}/{y}/{x}.jpg'
+        ],
+        tileSize: 256,
+        scheme: 'tms'
+      });
+
+      map.current.addLayer({
+        id: 'south-pole-overlay',
+        type: 'raster',
+        source: 'south-pole-layer',
+        paint: {
+          'raster-opacity': 1
+        },
+        layout: {
+          visibility: 'visible'
+        }
+      });
     });
 
     return () => {
