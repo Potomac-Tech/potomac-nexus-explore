@@ -449,7 +449,9 @@ const LunarMap: React.FC = () => {
         type: 'raster',
         source: 'south-pole-layer',
         paint: {
-          'raster-opacity': 1
+          'raster-opacity': 1,
+          'raster-resampling': 'nearest',
+          'raster-fade-duration': 0
         },
         layout: {
           visibility: 'none'
@@ -457,17 +459,22 @@ const LunarMap: React.FC = () => {
       });
     });
 
-    // Switch projection and toggle polar overlays near poles
+    // Switch projection earlier and keep polar overlays visible up to ±90°
     const updatePolarView = () => {
       if (!map.current) return;
       const lat = map.current.getCenter().lat;
-      const target = Math.abs(lat) >= 70 ? 'equirectangular' : 'globe';
+      const threshold = 55; // switch at ±55° to avoid Mercator pole gaps
+      const target = Math.abs(lat) >= threshold ? 'equirectangular' : 'globe';
       const current = (map.current as any).getProjection?.().name;
       if (current !== target) {
         (map.current as any).setProjection(target as any);
       }
-      const northVisible = lat >= 70;
-      const southVisible = lat <= -70;
+      // Keep camera stable near poles
+      if (Math.abs(lat) >= threshold) {
+        if (map.current.getPitch() !== 0) map.current.setPitch(0);
+      }
+      const northVisible = lat >= threshold;
+      const southVisible = lat <= -threshold;
       if (map.current.getLayer('north-pole-overlay')) {
         map.current.setLayoutProperty(
           'north-pole-overlay',
@@ -483,7 +490,7 @@ const LunarMap: React.FC = () => {
         );
       }
     };
-    map.current.on('moveend', updatePolarView);
+    map.current.on('move', updatePolarView);
     updatePolarView();
 
     return () => {
