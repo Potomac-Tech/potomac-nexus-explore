@@ -235,6 +235,7 @@ const LunarMap: React.FC = () => {
   const [psrLayerVisible, setPsrLayerVisible] = useState(false);
   const [spectrographLayerVisible, setSpectrographLayerVisible] = useState(false);
   const searchMarker = useRef<mapboxgl.Marker | null>(null);
+  const usingFallback = useRef(false);
 
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
@@ -281,8 +282,23 @@ const LunarMap: React.FC = () => {
 
     // Add error logging
     map.current.on('error', (e) => {
+      const err: any = (e as any)?.error || e;
+      const msg = String(err?.message || '');
       // Surface tile/CORS/projection issues in console
-      console.error('Mapbox error:', (e as any)?.error || e);
+      console.error('Mapbox error:', err);
+      // Auto-switch to NASA Trek fallback if OPM S3 tiles fail
+      if (!usingFallback.current && /opmbuilder|hillshaded-albedo/.test(msg)) {
+        try {
+          if (map.current?.getLayer('moon-surface-fallback')) {
+            map.current.setLayoutProperty('moon-surface', 'visibility', 'none');
+            map.current.setLayoutProperty('moon-surface-fallback', 'visibility', 'visible');
+            usingFallback.current = true;
+            console.warn('OPM tiles failed; switched to NASA Trek fallback.');
+          }
+        } catch (err2) {
+          console.warn('Fallback switch error:', err2);
+        }
+      }
     });
 
     // Add navigation controls
@@ -410,6 +426,24 @@ const LunarMap: React.FC = () => {
         }
       });
 
+      // Add fallback NASA Trek WAC base (used if OPM fails)
+      map.current.addSource('moon-tiles-fallback', {
+        type: 'raster',
+        tiles: [
+          'https://trek.nasa.gov/tiles/Moon/EQ/LRO_WAC_Mosaic_Global_303ppd/1.0.0/default/default028mm/{z}/{y}/{x}.jpg'
+        ],
+        tileSize: 256,
+        minzoom: 0,
+        maxzoom: 8
+      });
+      map.current.addLayer({
+        id: 'moon-surface-fallback',
+        type: 'raster',
+        source: 'moon-tiles-fallback',
+        paint: { 'raster-opacity': 1 },
+        layout: { visibility: 'none' }
+      }, 'lunar-data-circles');
+      
     });
 
     return () => {
