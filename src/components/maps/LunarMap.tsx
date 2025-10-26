@@ -248,11 +248,11 @@ const LunarMap: React.FC = () => {
           'moon-tiles': {
             type: 'raster',
             tiles: [
-              'https://trek.nasa.gov/tiles/Moon/EQ/LRO_WAC_Mosaic_Global_303ppd/1.0.0/default/default028mm/{z}/{y}/{x}.jpg'
+              'https://cartocdn-gusc.global.ssl.fastly.net/opmbuilder/api/v1/map/named/opm-moon-basemap-v0-1/all/{z}/{x}/{y}.png'
             ],
             tileSize: 256,
             minzoom: 0,
-            maxzoom: 8
+            maxzoom: 10
           }
         },
         layers: [
@@ -410,88 +410,7 @@ const LunarMap: React.FC = () => {
         }
       });
 
-      // Add North Pole LOLA fill layer
-      map.current.addSource('north-pole-layer', {
-        type: 'raster',
-        tiles: [
-          'https://trek.nasa.gov/tiles/Moon/NP/LRO_WAC_Mosaic_North_Polar_118mperpx/1.0.0/default/default028mm/{z}/{y}/{x}.jpg'
-        ],
-        tileSize: 256,
-        scheme: 'tms'
-      });
-
-      map.current.addLayer({
-        id: 'north-pole-overlay',
-        type: 'raster',
-        source: 'north-pole-layer',
-        paint: {
-          'raster-opacity': 1,
-          'raster-resampling': 'nearest',
-          'raster-fade-duration': 0
-        },
-        layout: {
-          visibility: 'none'
-        }
-      });
-
-      // Add South Pole LOLA fill layer
-      map.current.addSource('south-pole-layer', {
-        type: 'raster',
-        tiles: [
-          'https://trek.nasa.gov/tiles/Moon/SP/LRO_WAC_Mosaic_South_Polar_118mperpx/1.0.0/default/default028mm/{z}/{y}/{x}.jpg'
-        ],
-        tileSize: 256,
-        scheme: 'tms'
-      });
-
-      map.current.addLayer({
-        id: 'south-pole-overlay',
-        type: 'raster',
-        source: 'south-pole-layer',
-        paint: {
-          'raster-opacity': 1,
-          'raster-resampling': 'nearest',
-          'raster-fade-duration': 0
-        },
-        layout: {
-          visibility: 'none'
-        }
-      });
     });
-
-    // Switch projection earlier and keep polar overlays visible up to ±90°
-    const updatePolarView = () => {
-      if (!map.current) return;
-      const lat = map.current.getCenter().lat;
-      const threshold = 55; // switch at ±55° to avoid Mercator pole gaps
-      const target = Math.abs(lat) >= threshold ? 'equirectangular' : 'globe';
-      const current = (map.current as any).getProjection?.().name;
-      if (current !== target) {
-        (map.current as any).setProjection(target as any);
-      }
-      // Keep camera stable near poles
-      if (Math.abs(lat) >= threshold) {
-        if (map.current.getPitch() !== 0) map.current.setPitch(0);
-      }
-      const northVisible = lat >= threshold;
-      const southVisible = lat <= -threshold;
-      if (map.current.getLayer('north-pole-overlay')) {
-        map.current.setLayoutProperty(
-          'north-pole-overlay',
-          'visibility',
-          northVisible ? 'visible' : 'none'
-        );
-      }
-      if (map.current.getLayer('south-pole-overlay')) {
-        map.current.setLayoutProperty(
-          'south-pole-overlay',
-          'visibility',
-          southVisible ? 'visible' : 'none'
-        );
-      }
-    };
-    map.current.on('move', updatePolarView);
-    updatePolarView();
 
     return () => {
       searchMarker.current?.remove();
