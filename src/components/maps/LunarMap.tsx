@@ -248,7 +248,7 @@ const LunarMap: React.FC = () => {
           'moon-tiles': {
             type: 'raster',
             tiles: [
-              'https://cartocdn-gusc.global.ssl.fastly.net/opmbuilder/api/v1/map/named/opm-moon-basemap-v0-1/all/{z}/{x}/{y}.png'
+              'https://s3.amazonaws.com/opmbuilder/301_moon/tiles/w/hillshaded-albedo/{z}/{x}/{y}.png'
             ],
             tileSize: 256,
             minzoom: 0,
