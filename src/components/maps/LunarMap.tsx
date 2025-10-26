@@ -249,11 +249,12 @@ const LunarMap: React.FC = () => {
           'moon-tiles': {
             type: 'raster',
             tiles: [
-              'https://s3.amazonaws.com/opmbuilder/301_moon/tiles/w/hillshaded-albedo/{z}/{x}/{y}.png'
+              'https://wms.im-ldi.com/?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=luna_wac_global&STYLES=&FORMAT=image/png&TRANSPARENT=false&SRS=EPSG:4326&BBOX={bbox-epsg-4326}&WIDTH=256&HEIGHT=256'
             ],
             tileSize: 256,
             minzoom: 0,
-            maxzoom: 10
+            maxzoom: 10,
+            attribution: 'Imagery: LROC WAC Global — LROC/ASU WMS'
           }
         },
         layers: [
@@ -286,14 +287,14 @@ const LunarMap: React.FC = () => {
       const msg = String(err?.message || '');
       // Surface tile/CORS/projection issues in console
       console.error('Mapbox error:', err);
-      // Auto-switch to NASA Trek fallback if OPM S3 tiles fail
-      if (!usingFallback.current && /opmbuilder|hillshaded-albedo/.test(msg)) {
+      // Auto-switch to NASA Trek fallback if primary WMS tiles fail
+      if (!usingFallback.current && /(opmbuilder|hillshaded-albedo|wms\.im-ldi\.com|GetMap|CORS|NetworkError)/i.test(msg)) {
         try {
           if (map.current?.getLayer('moon-surface-fallback')) {
             map.current.setLayoutProperty('moon-surface', 'visibility', 'none');
             map.current.setLayoutProperty('moon-surface-fallback', 'visibility', 'visible');
             usingFallback.current = true;
-            console.warn('OPM tiles failed; switched to NASA Trek fallback.');
+            console.warn('Primary tiles failed; switched to NASA Trek fallback.');
           }
         } catch (err2) {
           console.warn('Fallback switch error:', err2);
