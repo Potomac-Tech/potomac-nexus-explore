@@ -249,12 +249,12 @@ const LunarMap: React.FC = () => {
           'moon-tiles': {
             type: 'raster',
             tiles: [
-              'https://wms.im-ldi.com/?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=luna_wac_global&STYLES=&FORMAT=image/png&TRANSPARENT=false&SRS=EPSG:4326&BBOX={bbox-epsg-4326}&WIDTH=256&HEIGHT=256'
+              'https://s3.amazonaws.com/opmbuilder/301_moon/tiles/w/hillshaded-albedo/{z}/{x}/{y}.png'
             ],
             tileSize: 256,
             minzoom: 0,
             maxzoom: 10,
-            attribution: 'Imagery: LROC WAC Global — LROC/ASU WMS'
+            attribution: 'Imagery: OPM Moon Hillshaded Albedo — OpenPlanetaryMap'
           }
         },
         layers: [
