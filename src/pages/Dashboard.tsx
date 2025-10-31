@@ -95,21 +95,21 @@ export default function Dashboard() {
               </p>
             </div>
           </div>
+          <p className="text-lg text-muted-foreground" style= {{ textIndent: '2em', textAlign: 'left'}}>
+            Lunar researchers waste up to 80% of their time just finding and formatting data, not on
+            discovery. Potomac gives them that time back and improves their grant win rate – worth
+            millions of dollars per year. Our Nexus platform is a one-stop-shop for curated scientific data,
+            saving research teams thousands of hours.
+          </p>         
+          <div className="image-text-layout">
+            <img src={sourceImage} alt="Layout Image" className="layout-image" />
             <p className="text-lg text-muted-foreground" style= {{ textIndent: '2em', textAlign: 'left'}}>
-              Lunar researchers waste up to 80% of their time just finding and formatting data, not on
-              discovery. Potomac gives them that time back and improves their grant win rate – worth
-              millions of dollars per year. Our Nexus platform is a one-stop-shop for curated scientific data,
-              saving research teams thousands of hours.
-            </p>         
-            <div className="image-text-layout">
-              <img src={sourceImage} alt="Layout Image" className="layout-image" />
-              <p className="text-lg text-muted-foreground" style= {{ textIndent: '2em', textAlign: 'left'}}>
-                We also deploy our own proprietary hardware,
-                the Potomac Source, to collect exclusive data from the lunar surface. This slashes data costs
-                by 90% and gives university customers, like the 5 we’re already working with, the critical
-                edge to win millions in new grant funding and make game changing discoveries.              
-              </p>
-            </div>          
+              We also deploy our own proprietary hardware,
+              the Potomac Source, to collect exclusive data from the lunar surface. This slashes data costs
+              by 90% and gives university customers, like the 5 we’re already working with, the critical
+              edge to win millions in new grant funding and make game changing discoveries.              
+            </p>
+          </div>          
         </div>
 
         {/* System Statistics */}
