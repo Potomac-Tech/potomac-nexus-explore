@@ -57,7 +57,8 @@ const App = () => (
                           
                           {/* Security & Admin Routes */}
                           <Route path="/users" element={<div className="p-6 text-center">User Management - Coming Soon</div>} />
-                          <Route path="/security" element={<SecurityDashboard />} />
+                          {/* <Route path="/security" element={<SecurityDashboard />} /> */}
+                          <Route path="/security" element={<div className="p-6 text-center">Security Dashboard - Coming Soon</div>} />
                           <Route path="/settings" element={<div className="p-6 text-center">System Settings - Coming Soon</div>} />
                           
                           {/* Catch all */}

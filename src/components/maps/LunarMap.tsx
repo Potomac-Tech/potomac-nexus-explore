@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Search, Layers } from 'lucide-react';
+import { Search, Layers, Box } from 'lucide-react';
+import lunarMapImage from './LunarMap.png';
 
 // Set Mapbox access token
 mapboxgl.accessToken = 'pk.eyJ1IjoiamFjb2ItbWF0dGhld3MiLCJhIjoiY21kZ3FkbjJwMHB4bjJsbzhxN2N6cGpiNCJ9.5TBF1McUmSJcFRAs62qAVw';
@@ -528,11 +529,14 @@ const LunarMap: React.FC = () => {
   };
 
   return (
-    <div className="relative w-full h-screen">
-      <div ref={mapContainer} className="absolute inset-0" />
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column'}}>
+    {/* <div className="relative w-full h-screen"> */}
+      {/* <div ref={mapContainer} className="absolute inset-0" /> */}
+      <Label style={{ fontSize: '24px', padding: '10px' }}>Lunar Map Example Design:</Label>
+      <img src={lunarMapImage} alt="Application Logo" style={{ height: '90%', width: '90%'}}/>
       
       {/* Coordinate Search Panel */}
-      <Card className="absolute top-4 left-4 w-80 z-10">
+      {/* <Card className="absolute top-4 left-4 w-80 z-10">
         <CardHeader>
           <CardTitle className="text-sm flex items-center gap-2">
             <Search className="w-4 h-4" />
@@ -572,10 +576,10 @@ const LunarMap: React.FC = () => {
             Search Location
           </Button>
         </CardContent>
-      </Card>
+      </Card> */}
 
       {/* Layers Control Panel */}
-      <Card className="absolute top-4 right-4 w-72 z-10">
+      {/* <Card className="absolute top-4 right-4 w-72 z-10">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="text-sm flex items-center gap-2">
@@ -616,10 +620,10 @@ const LunarMap: React.FC = () => {
             </div>
           </CardContent>
         )}
-      </Card>
+      </Card> */}
       
       {/* Data Point Details Panel */}
-      {selectedPoint && (
+      {/* {selectedPoint && (
         <Card className="absolute top-56 left-4 w-80 z-10">
           <CardHeader>
             <div className="flex justify-between items-start">
@@ -667,10 +671,10 @@ const LunarMap: React.FC = () => {
             </Button>
           </CardContent>
         </Card>
-      )}
+      )} */}
 
       {/* Legend */}
-      <Card className="absolute bottom-4 right-4 z-10">
+      {/* <Card className="absolute bottom-4 right-4 z-10">
         <CardHeader>
           <CardTitle className="text-sm">Data Types</CardTitle>
         </CardHeader>
@@ -704,7 +708,7 @@ const LunarMap: React.FC = () => {
             <span className="text-sm">Soil Analysis</span>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   );
 };

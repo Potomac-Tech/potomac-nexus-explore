@@ -5,6 +5,8 @@ import { SecurityOverview } from "@/components/dashboard/SecurityOverview";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useProfile } from "@/hooks/useProfile";
 import { useAuth } from "@/contexts/AuthContext";
+import sourceImage from './PotomacSource.png';
+import './../App.css';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -93,10 +95,25 @@ export default function Dashboard() {
               </p>
             </div>
           </div>
+            <p className="text-lg text-muted-foreground" style= {{ textIndent: '2em', textAlign: 'left'}}>
+              Lunar researchers waste up to 80% of their time just finding and formatting data, not on
+              discovery. Potomac gives them that time back and improves their grant win rate – worth
+              millions of dollars per year. Our Nexus platform is a one-stop-shop for curated scientific data,
+              saving research teams thousands of hours.
+            </p>         
+            <div className="image-text-layout">
+              <img src={sourceImage} alt="Layout Image" className="layout-image" />
+              <p className="text-lg text-muted-foreground" style= {{ textIndent: '2em', textAlign: 'left'}}>
+                We also deploy our own proprietary hardware,
+                the Potomac Source, to collect exclusive data from the lunar surface. This slashes data costs
+                by 90% and gives university customers, like the 5 we’re already working with, the critical
+                edge to win millions in new grant funding and make game changing discoveries.              
+              </p>
+            </div>          
         </div>
 
         {/* System Statistics */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flow-in">
+        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6 flow-in">
           {systemStats.map((stat) => (
             <Card key={stat.title} className="module-card">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -118,10 +135,10 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           ))}
-        </div>
+        </div> */}
 
         {/* Data Modules Grid */}
-        <div className="space-y-6">
+        {/* <div className="space-y-6">
           <h2 className="text-2xl font-semibold text-foreground">Data Modules</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
             {dataModules.map((module, index) => (
@@ -133,16 +150,16 @@ export default function Dashboard() {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Security Overview */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 flow-in">
+        {/* <div className="grid grid-cols-1 lg:grid-cols-3 gap-6"> */}
+          {/* <div className="lg:col-span-2 flow-in">
             <SecurityOverview />
-          </div>
+          </div> */}
           
           {/* Quick Actions */}
-          <div className="flow-in">
+          {/* <div className="flow-in">
             <Card className="module-card">
               <CardHeader>
                 <CardTitle>Quick Actions</CardTitle>
@@ -184,8 +201,8 @@ export default function Dashboard() {
                 </button>
               </CardContent>
             </Card>
-          </div>
-        </div>
+          </div> */}
+        {/* </div> */}
       </div>
     </div>
   );

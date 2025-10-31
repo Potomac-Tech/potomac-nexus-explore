@@ -26,8 +26,8 @@ import {
 
 const mainItems = [
   { title: "Dashboard", url: "/dashboard", icon: BarChart3 },
-  { title: "Data Analytics", url: "/analytics", icon: Database },
-  { title: "Data Marketplace", url: "/marketplace", icon: ShoppingCart },
+  // { title: "Data Analytics", url: "/analytics", icon: Database },
+  // { title: "Data Marketplace", url: "/marketplace", icon: ShoppingCart },
 ];
 
 const dataModules = [
@@ -37,12 +37,12 @@ const dataModules = [
     icon: Moon,
     description: "Geological & atmospheric data"
   },
-  { 
-    title: "Seabed Ecology", 
-    url: "/seabed", 
-    icon: Waves,
-    description: "Marine ecosystem analysis"
-  },
+  // { 
+  //   title: "Seabed Ecology", 
+  //   url: "/seabed", 
+  //   icon: Waves,
+  //   description: "Marine ecosystem analysis"
+  // },
 ];
 
 const adminItems = [
@@ -68,7 +68,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar
-      className={`${collapsed ? "w-16" : "w-72"} bg-gradient-celestial border-r border-sidebar-border/30`}
+      className={`${collapsed ? "w-16" : "w-64"} bg-gradient-celestial border-r border-sidebar-border/30`}
       collapsible="icon"
     >
       <SidebarContent className="p-4">
