@@ -40,3 +40,31 @@
 .read-the-docs {
   color: #888;
 }
+
+.image-text-layout {
+  display: flex;
+  align-items: center;  
+  gap: 20px; 
+  margin-top: 20px; 
+  max-width: 800px; 
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 1. Style for the Image (Fixed 50% width) */
+.layout-image {
+  /* flex: <grow> <shrink> <basis> */
+  /* flex: 0 0 calc(50% - 10px);  */
+  /* Sets the image size to exactly 50% of the container minus half the gap */
+  width: 50%; /* Override any previous fixed width */
+  height: auto;
+}
+
+/* 2. Style for the Paragraph (Fills remaining space) */
+.layout-text {
+  /* flex-grow: 1 allows it to take all remaining space. 
+   * flex-shrink: 0 prevents it from shrinking unnecessarily.
+   * flex-basis: 0 ensures the growth calculation starts from 0 size.
+   */
+  flex: 1 0 0; 
+}
