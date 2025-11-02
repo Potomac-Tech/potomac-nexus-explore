@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/sidebar";
 
 const mainItems = [
-  { title: "Dashboard", url: "/dashboard", icon: BarChart3 },
+  { title: "Mission Statement", url: "/dashboard", icon: BarChart3 },
   // { title: "Data Analytics", url: "/analytics", icon: Database },
   // { title: "Data Marketplace", url: "/marketplace", icon: ShoppingCart },
 ];
@@ -73,18 +73,20 @@ export function AppSidebar() {
     >
       <SidebarContent className="p-4">
         {/* Logo Section */}
-        <div className="flex items-center mb-8 px-2">
-          <img 
-            src="/lovable-uploads/21fa0edb-b252-42c1-bd21-38a5e74baa22.png" 
-            alt="Potomac Logo" 
-            className={`${collapsed ? "w-8 h-8" : "w-10 h-10"}`}
-          />
-          {!collapsed && (
-            <div className="ml-3">
-              <h1 className="text-xl font-bold text-primary">POTOMAC</h1>
-              <p className="text-xs text-sidebar-foreground/70">Scientific Database</p>
-            </div>
-          )}
+        <div>
+          <NavLink to={'/'} className="flex items-center mb-8 px-2">
+            <img 
+              src="/lovable-uploads/21fa0edb-b252-42c1-bd21-38a5e74baa22.png" 
+              alt="Potomac Logo" 
+              className={`${collapsed ? "w-8 h-8" : "w-10 h-10"}`}
+            />
+            {!collapsed && (
+              <div className="ml-3">
+                <h1 className="text-xl font-bold text-primary">POTOMAC</h1>
+                <p className="text-xs text-sidebar-foreground/70">Scientific Database</p>
+              </div>
+            )}
+          </NavLink>          
         </div>
 
         {/* Main Navigation */}

@@ -10,34 +10,41 @@ const Landing = () => {
   const { user } = useAuth();
 
   const features = [
+    // {
+    //   title: 'Lunar Data Module',
+    //   description: 'Advanced lunar surface analysis and mineral composition data',
+    //   icon: Satellite,
+    //   href: '/lunar',
+    //   status: 'Active'
+    // },
     {
-      title: 'Lunar Data Module',
-      description: 'Advanced lunar surface analysis and mineral composition data',
+      title: 'Coming Soon',
+      description: 'Sign up to stay up to date',
       icon: Satellite,
-      href: '/lunar',
+      href: 'http://landing-page.potomacdb.com/',
       status: 'Active'
-    },
-    {
-      title: 'Seabed Mapping',
-      description: 'Deep-sea geological surveys and underwater terrain mapping',
-      icon: Waves, 
-      href: '/seabed',
-      status: 'Active'
-    },
-    {
-      title: 'Data Marketplace',
-      description: 'Buy and sell scientific datasets with secure transactions',
-      icon: ShoppingCart,
-      href: '/marketplace',
-      status: 'Active'
-    },
-    {
-      title: 'Analytics Dashboard',
-      description: 'Comprehensive data visualization and research analytics',
-      icon: BarChart3,
-      href: '/analytics',
-      status: 'Coming Soon'
-    }
+    },    
+    // {
+    //   title: 'Seabed Mapping',
+    //   description: 'Deep-sea geological surveys and underwater terrain mapping',
+    //   icon: Waves, 
+    //   href: '/seabed',
+    //   status: 'Active'
+    // },
+    // {
+    //   title: 'Data Marketplace',
+    //   description: 'Buy and sell scientific datasets with secure transactions',
+    //   icon: ShoppingCart,
+    //   href: '/marketplace',
+    //   status: 'Active'
+    // },
+    // {
+    //   title: 'Analytics Dashboard',
+    //   description: 'Comprehensive data visualization and research analytics',
+    //   icon: BarChart3,
+    //   href: '/analytics',
+    //   status: 'Coming Soon'
+    // }
   ];
 
   const securityFeatures = [
@@ -90,7 +97,7 @@ const Landing = () => {
                     Authenticated
                   </Badge>
                   <Link to="/dashboard">
-                    <Button>Go to Dashboard</Button>
+                    <Button>Go to Mission Statement</Button>
                   </Link>
                 </div>
                 <Link to="/security">
@@ -105,53 +112,67 @@ const Landing = () => {
         )}
 
         {/* MFA Setup */}
-        {user && (
+        {/* {user && (
           <div className="mb-8">
             <MFASetup />
           </div>
-        )}
+        )} */}
 
         {/* Data Modules */}
         <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
-            <Globe className="w-6 h-6 text-primary" />
-            Scientific Data Modules
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <Card key={index} className="module-card group cursor-pointer">
-                  <CardHeader className="pb-4">
-                    <div className="flex items-center justify-between">
-                      <Icon className="w-8 h-8 text-primary" />
-                      <Badge 
-                        variant={feature.status === 'Active' ? 'default' : 'secondary'}
-                        className={feature.status === 'Active' ? 'status-secure' : ''}
-                      >
-                        {feature.status}
-                      </Badge>
-                    </div>
-                    <CardTitle className="text-lg">{feature.title}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="mb-4">{feature.description}</CardDescription>
-                    {feature.status === 'Active' && (
-                      <Link to={feature.href}>
-                        <Button variant="outline" size="sm" className="w-full group-hover:bg-primary group-hover:text-primary-foreground">
-                          Access Module
-                        </Button>
-                      </Link>
-                    )}
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </div>
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+            <div style={{ display: 'flex', flexDirection: 'column', width: '60%'}}>
+              <h2 className="text-2xl font-bold mb-6 flex items-center gap-2">
+                <Globe className="w-6 h-6 text-primary" />
+                {/* Scientific Data Modules */}
+                About Us
+              </h2>
+              <p className="text-lg text-muted-foreground" style= {{ textIndent: '2em', textAlign: 'left'}}>
+                Potomac Nexus is your unified data portal dedicated to
+                lunar science. We aggregate massive, multi-mission
+                datasets into one searchable location. Starting in Q1 2026,
+                Nexus will be the definitive, one-stop-shop that drastically
+                reduces your data search and preparation time, letting
+                serious researchers, analysts, and government agencies
+                focus on discovery, not data logistics.             
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6">       
+              {features.map((feature, index) => {
+                const Icon = feature.icon;
+                return (
+                  <Card key={index} className="module-card group cursor-pointer">
+                    <CardHeader className="pb-4">
+                      <div className="flex items-center justify-between">
+                        <Icon className="w-8 h-8 text-primary" />
+                        <Badge 
+                          variant={feature.status === 'Active' ? 'default' : 'secondary'}
+                          className={feature.status === 'Active' ? 'status-secure' : ''}
+                        >
+                          {feature.status}
+                        </Badge>
+                      </div>
+                      <CardTitle className="text-lg">{feature.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <CardDescription className="mb-4">{feature.description}</CardDescription>
+                      {feature.status === 'Active' && (
+                        <Link to={feature.href}>
+                          <Button variant="outline" size="sm" className="w-full group-hover:bg-primary group-hover:text-primary-foreground">
+                            Sign Up
+                          </Button>
+                        </Link>
+                      )}
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>     
+          </div>                        
         </div>
 
         {/* Security & Compliance */}
-        <Card className="bg-gradient-to-r from-card/80 to-card/60 backdrop-blur-sm border-border/50">
+        {/* <Card className="bg-gradient-to-r from-card/80 to-card/60 backdrop-blur-sm border-border/50">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="w-6 h-6 text-primary" />
@@ -220,7 +241,7 @@ const Landing = () => {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
     </div>
   );
