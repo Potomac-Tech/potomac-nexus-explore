@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Search, Layers, Box } from 'lucide-react';
+import { Search, Layers, Box, Globe, Map as MapIcon } from 'lucide-react';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 // Set Mapbox access token
 mapboxgl.accessToken = 'pk.eyJ1IjoiamFjb2ItbWF0dGhld3MiLCJhIjoiY21kZ3FkbjJwMHB4bjJsbzhxN2N6cGpiNCJ9.5TBF1McUmSJcFRAs62qAVw';
@@ -21,6 +22,22 @@ interface DataPoint {
   description: string;
   mission?: string;
   dataUrl?: string;
+}
+
+type ProjectionType = 
+  | 'cylindrical'
+  | 'stereo-north'
+  | 'stereo-south'
+  | 'ortho-farside'
+  | 'ortho-nearside'
+  | 'ortho-north'
+  | 'ortho-south'
+  | 'globe';
+
+interface ProjectionOption {
+  id: ProjectionType;
+  name: string;
+  icon: typeof Globe | typeof MapIcon;
 }
 
 const lunarMissionData: DataPoint[] = [
@@ -223,6 +240,17 @@ const lunarMissionData: DataPoint[] = [
   }
 ];
 
+const projectionOptions: ProjectionOption[] = [
+  { id: 'cylindrical', name: 'Equidistant Cylindrical (< 75 deg.)', icon: MapIcon },
+  { id: 'stereo-north', name: 'Stereographic (North Pole)', icon: MapIcon },
+  { id: 'stereo-south', name: 'Stereographic (South Pole)', icon: MapIcon },
+  { id: 'ortho-farside', name: 'Orthographic (Farside)', icon: Globe },
+  { id: 'ortho-nearside', name: 'Orthographic (Nearside)', icon: Globe },
+  { id: 'ortho-north', name: 'Orthographic (North Pole)', icon: Globe },
+  { id: 'ortho-south', name: 'Orthographic (South Pole)', icon: Globe },
+  { id: 'globe', name: 'Lunar Globe (3D)', icon: Globe },
+];
+
 const QuickmapGlobe: React.FC = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -232,7 +260,30 @@ const QuickmapGlobe: React.FC = () => {
   const [showLayers, setShowLayers] = useState(false);
   const [lrocWacVisible, setLrocWacVisible] = useState(true);
   const [lrocNacVisible, setLrocNacVisible] = useState(false);
+  const [selectedProjection, setSelectedProjection] = useState<ProjectionType>('globe');
   const searchMarker = useRef<mapboxgl.Marker | null>(null);
+
+  const getProjectionConfig = (projType: ProjectionType) => {
+    switch (projType) {
+      case 'cylindrical':
+        return { projection: { name: 'mercator' as const }, center: [0, 0] as [number, number], zoom: 1, pitch: 0 };
+      case 'stereo-north':
+        return { projection: { name: 'albers' as const, center: [0, 90] as [number, number], parallels: [75, 85] as [number, number] }, center: [0, 90] as [number, number], zoom: 2, pitch: 0 };
+      case 'stereo-south':
+        return { projection: { name: 'albers' as const, center: [0, -90] as [number, number], parallels: [-85, -75] as [number, number] }, center: [0, -90] as [number, number], zoom: 2, pitch: 0 };
+      case 'ortho-farside':
+        return { projection: { name: 'globe' as const }, center: [180, 0] as [number, number], zoom: 2, pitch: 0 };
+      case 'ortho-nearside':
+        return { projection: { name: 'globe' as const }, center: [0, 0] as [number, number], zoom: 2, pitch: 0 };
+      case 'ortho-north':
+        return { projection: { name: 'globe' as const }, center: [0, 90] as [number, number], zoom: 2, pitch: 0 };
+      case 'ortho-south':
+        return { projection: { name: 'globe' as const }, center: [0, -90] as [number, number], zoom: 2, pitch: 0 };
+      case 'globe':
+      default:
+        return { projection: { name: 'globe' as const }, center: [0, 0] as [number, number], zoom: 2, pitch: 0 };
+    }
+  };
 
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
@@ -403,6 +454,20 @@ const QuickmapGlobe: React.FC = () => {
     }
   }, [lrocNacVisible]);
 
+  // Handle projection changes
+  useEffect(() => {
+    if (!map.current) return;
+    
+    const config = getProjectionConfig(selectedProjection);
+    map.current.setProjection(config.projection);
+    map.current.flyTo({
+      center: config.center,
+      zoom: config.zoom,
+      pitch: config.pitch,
+      duration: 1500
+    });
+  }, [selectedProjection]);
+
   const handleCoordinateSearch = () => {
     const lat = parseFloat(searchLat);
     const lng = parseFloat(searchLng);
@@ -425,10 +490,40 @@ const QuickmapGlobe: React.FC = () => {
   };
 
   return (
-    <div className="relative h-full w-full">
-      <div ref={mapContainer} className="absolute inset-0" />
-      
-      {/* Controls Panel */}
+    <div className="relative h-full w-full flex">
+      {/* Projection Sidebar */}
+      <Card className="w-72 h-full rounded-none border-r bg-background">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg flex items-center gap-2">
+            <Globe className="h-5 w-5" />
+            Map Projections
+          </CardTitle>
+        </CardHeader>
+        <ScrollArea className="h-[calc(100vh-80px)]">
+          <CardContent className="space-y-2">
+            {projectionOptions.map((option) => {
+              const Icon = option.icon;
+              return (
+                <Button
+                  key={option.id}
+                  variant={selectedProjection === option.id ? 'default' : 'outline'}
+                  className="w-full justify-start text-left h-auto py-3"
+                  onClick={() => setSelectedProjection(option.id)}
+                >
+                  <Icon className="h-4 w-4 mr-2 shrink-0" />
+                  <span className="text-sm">{option.name}</span>
+                </Button>
+              );
+            })}
+          </CardContent>
+        </ScrollArea>
+      </Card>
+
+      {/* Map Container */}
+      <div className="relative flex-1">
+        <div ref={mapContainer} className="absolute inset-0" />
+        
+        {/* Controls Panel */}
       <Card className="absolute top-4 left-4 w-80 bg-background/95 backdrop-blur-sm">
         <CardHeader className="pb-3">
           <CardTitle className="text-lg flex items-center gap-2">
@@ -574,6 +669,7 @@ const QuickmapGlobe: React.FC = () => {
           </CardContent>
         </Card>
       )}
+      </div>
     </div>
   );
 };
