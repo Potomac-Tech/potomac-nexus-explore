@@ -8,7 +8,8 @@ import {
   Moon,
   Waves,
   ChevronRight,
-  ShoppingCart
+  ShoppingCart,
+  Map
 } from "lucide-react";
 
 import {
@@ -36,6 +37,12 @@ const dataModules = [
     url: "/lunar", 
     icon: Moon,
     description: "Geological & atmospheric data"
+  },
+  { 
+    title: "LROC Quickmap", 
+    url: "/quickmap", 
+    icon: Map,
+    description: "Interactive lunar mapping tool"
   },
   // { 
   //   title: "Seabed Ecology", 

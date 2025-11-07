@@ -12,6 +12,7 @@ import Landing from "./pages/Landing";
 import Dashboard from "./pages/Dashboard";
 import LunarModule from "./pages/LunarModule";
 import SeabedModule from "./pages/SeabedModule";
+import QuickmapModule from "./pages/QuickmapModule";
 import DataMarketplace from "./pages/DataMarketplace";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
@@ -51,6 +52,7 @@ const App = () => (
                           {/* Data Module Routes */}
                           <Route path="/lunar" element={<LunarModule />} />
                           <Route path="/seabed" element={<SeabedModule />} />
+                          <Route path="/quickmap" element={<QuickmapModule />} />
                           <Route path="/materials" element={<div className="p-6 text-center">Material Science Module - Coming Soon</div>} />
                           <Route path="/analytics" element={<div className="p-6 text-center">Data Analytics Dashboard - Coming Soon</div>} />
                           <Route path="/marketplace" element={<DataMarketplace />} />
