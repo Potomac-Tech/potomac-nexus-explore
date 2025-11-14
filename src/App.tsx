@@ -52,7 +52,7 @@ const App = () => (
                           {/* Data Module Routes */}
                           <Route path="/lunar" element={<LunarModule />} />
                           <Route path="/seabed" element={<SeabedModule />} />
-                          <Route path="/quickmap" element={<QuickmapModule />} />
+                          {/* <Route path="/quickmap" element={<QuickmapModule />} /> */}
                           <Route path="/materials" element={<div className="p-6 text-center">Material Science Module - Coming Soon</div>} />
                           <Route path="/analytics" element={<div className="p-6 text-center">Data Analytics Dashboard - Coming Soon</div>} />
                           <Route path="/marketplace" element={<DataMarketplace />} />

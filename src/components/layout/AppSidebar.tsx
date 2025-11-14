@@ -38,12 +38,12 @@ const dataModules = [
     icon: Moon,
     description: "Geological & atmospheric data"
   },
-  { 
-    title: "LROC Quickmap", 
-    url: "/quickmap", 
-    icon: Map,
-    description: "Interactive lunar mapping tool"
-  },
+  // { 
+  //   title: "LROC Quickmap", 
+  //   url: "/quickmap", 
+  //   icon: Map,
+  //   description: "Interactive lunar mapping tool"
+  // },
   // { 
   //   title: "Seabed Ecology", 
   //   url: "/seabed", 
